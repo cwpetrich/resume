@@ -3,31 +3,116 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  /* Accent color as space-separated RGB so Tailwind alpha modifiers work.
+     Default: phosphor green. Swapped at runtime by the theme command. */
+  --accent: 74 222 128; /* green-400 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #0a0e0d;
+  color: #c9d6cf;
+  background-image:
+    radial-gradient(
+      circle at 50% 0%,
+      rgb(var(--accent) / 0.06),
+      transparent 60%
+    );
+  background-attachment: fixed;
+}
+
+/* Selection in the terminal accent color. */
+::selection {
+  background: rgb(var(--accent) / 0.3);
+  color: #ffffff;
+}
+
+/* Custom scrollbar to match the terminal aesthetic. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e0d;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c2723;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--accent) / 0.5);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Subtle CRT scanline overlay — applied to terminal panels. */
+  .scanlines {
+    position: relative;
+  }
+  .scanlines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0.12) 3px,
+      rgba(0, 0, 0, 0) 4px
+    );
+    border-radius: inherit;
+    z-index: 5;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 8px rgb(var(--accent) / 0.45);
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/*  Print styles — turns the page into a clean, ATS-friendly PDF résumé.     */
+/*  Triggered by the "Download résumé (PDF)" button (window.print).          */
+/* ------------------------------------------------------------------------- */
+@media print {
+  @page {
+    margin: 1.5cm;
+  }
+
+  /* Hide all the interactive / decorative chrome. */
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  /* Reveal the print-only clean résumé layout. */
+  .print-only {
+    display: block !important;
+  }
+
+  a {
+    color: #000000 !important;
+    text-decoration: none;
+  }
+
+  .print-break {
+    break-inside: avoid;
+  }
+}
+
+/* The clean print résumé is hidden on screen, shown only when printing. */
+.print-only {
+  display: none;
 }

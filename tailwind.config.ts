@@ -5,42 +5,50 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      blue: "#2C446F",
-      purple: "#6F5392",
-      black: "#2A2D31",
-      bronze: "#CD853F",
-      green: "#90AE85",
-      "blue-green": "#359EBF",
-      "gray-dark": "#273444",
-      gray: "#8492a6",
-      "gray-light": "#d3dce6",
-    },
-    fontFamily: {
-      sans: ["Graphik", "sans-serif"],
-      serif: ["Merriweather", "serif"],
-    },
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        // Terminal palette. `accent` is driven by a CSS variable so the
+        // visitor can change the theme color at runtime (try `theme amber`).
+        term: {
+          bg: "#0a0e0d",
+          panel: "#0f1513",
+          border: "#1c2723",
+          dim: "#5c7066",
+          fg: "#c9d6cf",
+          accent: "rgb(var(--accent) / <alpha-value>)",
+        },
       },
-      spacing: {
-        "8xl": "96rem",
-        "9xl": "128rem",
+      fontFamily: {
+        mono: [
+          "var(--font-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
       },
-      borderRadius: {
-        xl: "1rem",
-        "2xl": "1.5rem",
-        "3xl": "2rem",
-        "4xl": "3rem",
-        "5xl": "4rem",
-        "6xl": "5rem",
-        "7xl": "6rem",
-        "8xl": "8rem",
-        "9xl": "10rem",
+      keyframes: {
+        blink: {
+          "0%, 49%": { opacity: "1" },
+          "50%, 100%": { opacity: "0" },
+        },
+        flicker: {
+          "0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%": { opacity: "0.99" },
+          "20%, 24%, 55%": { opacity: "0.85" },
+        },
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        blink: "blink 1s step-end infinite",
+        flicker: "flicker 4s infinite",
+        "fade-up": "fade-up 0.5s ease-out both",
       },
     },
   },

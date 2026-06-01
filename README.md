@@ -1,39 +1,97 @@
 # resume
-This is for all intents and purposes my resume as a representation of my skills and experience.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+My résumé and landing page as a live, self-hosted web app — a working
+demonstration that I can design, build, and operate the thing, not just list it
+on a CV.
 
-## Getting Started
+It's a **terminal-themed single page** with:
 
-First, run the development server:
+- A full résumé (about, experience, skills, projects, education, contact)
+- An **interactive shell** visitors can actually type into (`help`, `whoami`,
+  `skills`, `projects`, …)
+- **Hidden games & easter eggs** for anyone who pokes around — try `snake`,
+  `matrix`, `guess`, `theme amber`, `sudo`, or the Konami code
+  (`↑ ↑ ↓ ↓ ← → ← → B A`)
+- A **print-to-PDF résumé** — the "download résumé" button reflows the page
+  into a clean, ATS-friendly document via a dedicated print stylesheet
+- **SEO / Open Graph / JSON-LD** metadata for sharing and search
+
+Built with [Next.js](https://nextjs.org/) (App Router), TypeScript, and
+Tailwind CSS. Self-hosted on my own hardware behind a reverse proxy, managed by
+PM2, and deployed with a single script.
+
+## Editing the content
+
+**All résumé content lives in one file: [`lib/data.ts`](lib/data.ts).** Edit the
+objects there — `profile`, `experience`, `skills`, `projects`, `education`,
+`socials` — and the page, the interactive terminal, and the printable PDF all
+update automatically. Placeholder text is marked with `// TODO`.
+
+A few things to personalize first:
+
+- `profile.host` — set to your real domain (used in the prompt and meta tags)
+- `socials` — your LinkedIn slug
+- `experience`, `projects`, `education` — replace the placeholder entries
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production build
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run build   # compile
+npm run start   # serve the production build on :3000
+```
 
-## Learn More
+## Self-hosting (how this site actually runs)
 
-To learn more about Next.js, take a look at the following resources:
+The app runs under [PM2](https://pm2.keymetrics.io/) using
+[`ecosystem.config.js`](ecosystem.config.js), which serves `next start` on port
+3000. A reverse proxy (e.g. Nginx) terminates TLS and forwards traffic to it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[`deploy.sh`](deploy.sh) does a one-command deploy: build locally, `rsync` the
+runtime artifacts to the server, install production deps, and zero-downtime
+reload PM2.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+# defaults target conrad@clay:/var/www/resume — override via env vars:
+DEPLOY_HOST=user@host DEPLOY_DIR=/srv/resume ./deploy.sh
+```
 
-## Deploy on Vercel
+On the server, install the PM2 process once so it survives reboots:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pm2 startup        # follow the printed instructions once
+pm2 save
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Example Nginx reverse proxy
+
+```nginx
+server {
+    server_name resume.example.com;
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+## Project layout
+
+```
+app/            Next.js App Router — layout (metadata/SEO) + page
+components/     UI sections (Hero, Experience, Skills, …)
+  games/        Snake + Matrix-rain easter eggs
+lib/data.ts     ← all résumé content lives here
+deploy.sh       one-command deploy to the self-hosted box
+ecosystem.config.js   PM2 process definition
+```
