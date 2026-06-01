@@ -30,10 +30,13 @@ export default function MatrixRain({ onExit }: { onExit: () => void }) {
     resize();
     window.addEventListener("resize", resize);
 
-    const accent =
+    // --accent is stored space-separated ("74 222 128"); canvas fillStyle needs
+    // the comma form to parse reliably across browsers.
+    const accentRaw =
       getComputedStyle(document.documentElement)
         .getPropertyValue("--accent")
         .trim() || "74 222 128";
+    const accent = accentRaw.replace(/\s+/g, ", ");
 
     const draw = () => {
       ctx.fillStyle = "rgba(10, 14, 13, 0.08)";

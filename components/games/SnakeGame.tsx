@@ -68,10 +68,13 @@ export default function SnakeGame({ onExit }: { onExit: () => void }) {
   const draw = useCallback(() => {
     const ctx = canvasRef.current?.getContext("2d");
     if (!ctx) return;
-    const accent =
+    // --accent is stored space-separated ("74 222 128"); canvas fillStyle needs
+    // the comma form to parse reliably across browsers.
+    const accentRaw =
       getComputedStyle(document.documentElement)
         .getPropertyValue("--accent")
         .trim() || "74 222 128";
+    const accent = accentRaw.replace(/\s+/g, ", ");
 
     ctx.fillStyle = "#0a0e0d";
     ctx.fillRect(0, 0, SIZE, SIZE);
