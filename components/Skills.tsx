@@ -1,7 +1,7 @@
-import { skills } from "@/lib/data";
+import type { SkillGroup } from "@/lib/data";
 import Section from "./Section";
 
-export default function Skills() {
+export default function Skills({ skills }: { skills: SkillGroup[] }) {
   return (
     <Section id="skills" command="cat skills.txt">
       <div className="grid gap-5 sm:grid-cols-2">

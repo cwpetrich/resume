@@ -8,20 +8,26 @@ import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import InteractiveTerminal from "@/components/InteractiveTerminal";
 import PrintResume from "@/components/PrintResume";
-import { profile } from "@/lib/data";
+import { getResumeData } from "@/lib/resume";
+
+// Render from the live database on each request so admin edits appear instantly.
+export const dynamic = "force-dynamic";
 
 export default function Home() {
+  const data = getResumeData();
+  const { profile, socials, experience, skills, projects, education } = data;
+
   return (
     <>
-      <Nav />
+      <Nav profile={profile} />
 
       <main id="top" className="mx-auto max-w-3xl px-5 pb-20 sm:px-8">
-        <Hero />
-        <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Education />
+        <Hero profile={profile} />
+        <About profile={profile} />
+        <Experience experience={experience} />
+        <Skills skills={skills} />
+        <Projects projects={projects} />
+        <Education education={education} />
 
         {/* Interactive terminal — the centerpiece "play" section. */}
         <section id="terminal" className="no-print scroll-mt-24 py-10">
@@ -36,11 +42,11 @@ export default function Home() {
               every command is listed there. Built the same way the rest of this
               site was: React, hand-rolled.
             </p>
-            <InteractiveTerminal />
+            <InteractiveTerminal data={data} />
           </div>
         </section>
 
-        <Contact />
+        <Contact profile={profile} socials={socials} />
 
         <footer className="no-print mt-10 border-t border-term-border pt-6 text-xs text-term-dim">
           <p>
@@ -60,7 +66,7 @@ export default function Home() {
       </main>
 
       {/* Clean résumé that only appears when printing to PDF. */}
-      <PrintResume />
+      <PrintResume data={data} />
     </>
   );
 }

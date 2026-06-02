@@ -1,12 +1,4 @@
-import {
-  profile,
-  email,
-  socials,
-  experience,
-  skills,
-  projects,
-  education,
-} from "@/lib/data";
+import type { ResumeData } from "@/lib/data";
 
 /**
  * Clean, single-column, black-on-white résumé. Hidden on screen (`.print-only`)
@@ -14,7 +6,8 @@ import {
  * "download résumé (.pdf)" / hits Ctrl-P. Keeping a separate print layout means
  * the on-screen terminal aesthetic never has to compromise PDF readability.
  */
-export default function PrintResume() {
+export default function PrintResume({ data }: { data: ResumeData }) {
+  const { profile, socials, experience, skills, projects, education } = data;
   return (
     <div className="print-only mx-auto max-w-3xl px-8 py-6 text-black">
       {/* Header */}
@@ -22,10 +15,8 @@ export default function PrintResume() {
         <h1 className="text-2xl font-bold">{profile.name}</h1>
         <p className="text-base">{profile.title}</p>
         <p className="mt-1 text-xs">
-          {email}
-          {socials
-            .filter((s) => s.label !== "Email")
-            .map((s) => ` · ${s.href.replace(/^https?:\/\//, "")}`)}
+          {profile.email}
+          {socials.map((s) => ` · ${s.href.replace(/^https?:\/\//, "")}`)}
           {` · ${profile.location}`}
         </p>
       </header>

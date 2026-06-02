@@ -1,8 +1,8 @@
-import { experience } from "@/lib/data";
+import type { Job } from "@/lib/data";
 import Section from "./Section";
 import Tag from "./Tag";
 
-export default function Experience() {
+export default function Experience({ experience }: { experience: Job[] }) {
   return (
     <Section id="experience" command="cat experience.log">
       <ol className="space-y-8 border-l border-term-border pl-6">

@@ -1,7 +1,18 @@
-import { socials, profile } from "@/lib/data";
+import type { Profile, SocialLink } from "@/lib/data";
 import Section from "./Section";
 
-export default function Contact() {
+export default function Contact({
+  profile,
+  socials,
+}: {
+  profile: Profile;
+  socials: SocialLink[];
+}) {
+  // Email lives on the profile; surface it as the first contact row.
+  const rows: SocialLink[] = [
+    { label: "Email", handle: profile.email, href: `mailto:${profile.email}` },
+    ...socials,
+  ];
   return (
     <Section id="contact" command="./contact.sh">
       <p className="mb-5 max-w-xl text-sm leading-relaxed text-term-dim">
@@ -10,7 +21,7 @@ export default function Contact() {
       </p>
 
       <ul className="space-y-2.5">
-        {socials.map((s) => (
+        {rows.map((s) => (
           <li key={s.label} className="flex items-center gap-3 text-sm">
             <span className="w-20 shrink-0 text-term-dim">{s.label}</span>
             <a

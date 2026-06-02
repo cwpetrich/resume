@@ -1,7 +1,11 @@
-import { education } from "@/lib/data";
+import type { SchoolEntry } from "@/lib/data";
 import Section from "./Section";
 
-export default function Education() {
+export default function Education({
+  education,
+}: {
+  education: SchoolEntry[];
+}) {
   return (
     <Section id="education" command="cat education.md">
       <ul className="space-y-4">

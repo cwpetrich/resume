@@ -28,6 +28,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# resume database (runtime data — never commit; lives only on the server)
+/data
+
 # vercel
 .vercel
 

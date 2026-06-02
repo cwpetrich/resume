@@ -1,7 +1,7 @@
-import { profile } from "@/lib/data";
+import type { Profile } from "@/lib/data";
 import Section from "./Section";
 
-export default function About() {
+export default function About({ profile }: { profile: Profile }) {
   return (
     <Section id="about" command="cat about.md">
       <div className="max-w-2xl space-y-3 text-sm leading-relaxed text-term-fg/90 sm:text-base">

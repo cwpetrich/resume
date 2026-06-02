@@ -1,11 +1,11 @@
-import { profile } from "@/lib/data";
+import type { Profile } from "@/lib/data";
 import DownloadResume from "./DownloadResume";
 
 /**
  * Hero: a faux terminal window running `whoami`, with the headline, tagline,
  * quick stats, and the primary call-to-action buttons.
  */
-export default function Hero() {
+export default function Hero({ profile }: { profile: Profile }) {
   return (
     <header className="pt-6">
       <div className="scanlines animate-flicker overflow-hidden rounded-lg border border-term-border bg-term-panel shadow-2xl shadow-black/40">

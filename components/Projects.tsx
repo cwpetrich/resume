@@ -1,8 +1,8 @@
-import { projects } from "@/lib/data";
+import type { Project } from "@/lib/data";
 import Section from "./Section";
 import Tag from "./Tag";
 
-export default function Projects() {
+export default function Projects({ projects }: { projects: Project[] }) {
   return (
     <Section id="projects" command="ls projects/">
       <div className="grid gap-4 sm:grid-cols-2">

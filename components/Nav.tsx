@@ -1,4 +1,4 @@
-import { profile } from "@/lib/data";
+import type { Profile } from "@/lib/data";
 
 const links = [
   { href: "#about", label: "about" },
@@ -9,7 +9,7 @@ const links = [
 ];
 
 /** Sticky top nav, styled as a shell path bar. */
-export default function Nav() {
+export default function Nav({ profile }: { profile: Profile }) {
   return (
     <nav className="no-print sticky top-0 z-30 border-b border-term-border bg-term-bg/80 backdrop-blur">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-3 text-xs sm:text-sm">

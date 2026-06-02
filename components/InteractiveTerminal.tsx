@@ -1,15 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  profile,
-  socials,
-  skills,
-  projects,
-  experience,
-  education,
-  email,
-} from "@/lib/data";
+import type { ResumeData } from "@/lib/data";
 import SnakeGame from "./games/SnakeGame";
 import MatrixRain from "./games/MatrixRain";
 
@@ -51,7 +43,10 @@ const BANNER = String.raw`
   \___\___/_||_|_| \__,_\__,_| (_)
 `;
 
-export default function InteractiveTerminal() {
+export default function InteractiveTerminal({ data }: { data: ResumeData }) {
+  const { profile, socials, skills, projects, experience, education } = data;
+  const email = profile.email;
+
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
   const [game, setGame] = useState<null | "snake" | "matrix">(null);
@@ -118,17 +113,17 @@ export default function InteractiveTerminal() {
   }, [print]);
 
   /* --------------------------- Command handling -------------------------- */
-  const setAccent = (name: string): string => {
-    const rgb = THEMES[name];
-    if (!rgb) {
-      return `theme: unknown color "${name}". try: ${Object.keys(THEMES).join(", ")}`;
-    }
-    document.documentElement.style.setProperty("--accent", rgb);
-    return `theme set to <span class="text-term-accent">${name}</span>.`;
-  };
-
   const runShell = useCallback(
     (raw: string): string[] | "CLEAR" => {
+      const setAccent = (name: string): string => {
+        const rgb = THEMES[name];
+        if (!rgb) {
+          return `theme: unknown color "${name}". try: ${Object.keys(THEMES).join(", ")}`;
+        }
+        document.documentElement.style.setProperty("--accent", rgb);
+        return `theme set to <span class="text-term-accent">${name}</span>.`;
+      };
+
       const [cmd, ...rest] = raw.trim().split(/\s+/);
       const arg = rest.join(" ");
       switch (cmd.toLowerCase()) {
@@ -269,7 +264,7 @@ export default function InteractiveTerminal() {
           ];
       }
     },
-    [],
+    [profile, socials, skills, projects, experience, education, email],
   );
 
   const runGuess = (raw: string): string[] => {
