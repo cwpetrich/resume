@@ -1,4 +1,5 @@
 import type { Project } from "@/lib/data";
+import { externalUrl } from "@/lib/url";
 import Section from "./Section";
 import Tag from "./Tag";
 
@@ -32,7 +33,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
               <div className="mt-4 flex gap-4 text-xs">
                 {p.href && (
                   <a
-                    href={p.href}
+                    href={externalUrl(p.href)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-term-accent hover:underline"
@@ -42,7 +43,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                 )}
                 {p.repo && (
                   <a
-                    href={p.repo}
+                    href={externalUrl(p.repo)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-term-accent hover:underline"

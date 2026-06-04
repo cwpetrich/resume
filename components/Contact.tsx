@@ -1,4 +1,5 @@
 import type { Profile, SocialLink } from "@/lib/data";
+import { externalUrl } from "@/lib/url";
 import Section from "./Section";
 
 export default function Contact({
@@ -25,7 +26,7 @@ export default function Contact({
           <li key={s.label} className="flex items-center gap-3 text-sm">
             <span className="w-20 shrink-0 text-term-dim">{s.label}</span>
             <a
-              href={s.href}
+              href={externalUrl(s.href)}
               target={s.href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noopener noreferrer"
               className="text-term-accent transition-colors hover:text-term-fg hover:underline"
