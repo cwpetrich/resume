@@ -86,21 +86,22 @@ export const defaultResumeData: ResumeData = {
     name: "Conrad Petrich",
     username: "conrad",
     host: "petrich.dev", // TODO: set to your real domain
-    title: "Software Engineer",
+    title: "Senior Software Engineer",
     tagline:
-      "I build resilient web applications and self-host the infrastructure they run on.",
-    location: "United States",
+      "I build resilient, enterprise-grade systems across the full stack — and self-host the infrastructure they run on.",
+    location: "Eagle Mountain, Utah",
     email: "conradpetrich@gmail.com",
     about: [
-      "I'm a software engineer focused on building full-stack web applications " +
-        "with TypeScript, React, and Next.js — and on owning the systems that " +
-        "serve them in production.",
+      "I'm a senior software engineer with 10+ years building enterprise systems " +
+        "and full-stack web applications — C# and .NET on the backend, React and " +
+        "TypeScript on the front end, and event-driven, microservice architectures " +
+        "on AWS and Azure in between.",
       "This very site is a small proof of that: a Next.js app I designed, built, " +
         "and self-host on my own server behind a reverse proxy, deployed with a " +
         "single script. Poke around — there may be more here than meets the eye.",
     ],
     stats: [
-      { label: "years building software", value: "5+" },
+      { label: "years building software", value: "10+" },
       { label: "production deploys", value: "∞" },
       { label: "servers self-hosted", value: "1" },
     ],
@@ -113,41 +114,125 @@ export const defaultResumeData: ResumeData = {
       handle: "in/conrad-petrich",
       href: "https://www.linkedin.com/in/conrad-petrich/",
     },
+    { label: "Phone", handle: "+1 435 319 4528", href: "tel:+14353194528" },
   ],
 
   experience: [
     {
-      company: "Company Name",
+      company: "BYU",
       role: "Senior Software Engineer",
-      period: "2022 — Present",
-      location: "Remote",
-      summary: "One line about what this company does.",
+      period: "Jul 2025 — Mar 2026",
+      location: "Hybrid",
+      summary: "Software engineering for Brigham Young University.",
       highlights: [
-        "Led development of X, which did Y and resulted in Z% improvement.",
-        "Designed and shipped the A feature used by N users / customers.",
-        "Mentored engineers and owned the B subsystem end to end.",
+        "Provide consultation on software architecture and tooling while building " +
+          "new applications and maintaining legacy applications and systems.",
       ],
-      stack: ["TypeScript", "React", "Next.js", "Node.js", "PostgreSQL"],
+      stack: [],
     },
     {
-      company: "Previous Company",
-      role: "Software Engineer",
-      period: "2019 — 2022",
-      location: "City, ST",
-      summary: "One line about what this company does.",
+      company: "Steady IQ",
+      role: "Senior Software Engineer",
+      period: "Sep 2024 — Jun 2025",
+      location: "Remote",
+      summary: "Enterprise-grade event-driven systems.",
       highlights: [
-        "Built and maintained C, improving D by E.",
-        "Collaborated across teams to deliver F on schedule.",
+        "Designed, built, and maintained enterprise-level systems using C# with " +
+          ".NET Core, focusing on event-driven architecture with AWS services like " +
+          "SNS and SQS.",
+        "Managed multiple database types including MongoDB and MySQL, ensuring high " +
+          "code quality, adherence to best practices, and efficient solution delivery.",
       ],
-      stack: ["JavaScript", "Python", "AWS", "Docker"],
+      stack: ["C#", ".NET Core", "AWS", "SNS", "SQS", "MongoDB", "MySQL"],
+    },
+    {
+      company: "Nerd United",
+      role: "Senior Software Engineer",
+      period: "Mar 2022 — Sep 2024",
+      location: "Lehi, UT",
+      summary: "Microservice platform development.",
+      highlights: [
+        "Designed and implemented .NET web APIs as microservices deployed via Docker " +
+          "in Kubernetes, using SQL Server with Entity Framework and reducing build times.",
+        "Spearheaded the extraction of common libraries from a monorepo, creating " +
+          "CI/CD pipelines with GitHub Actions to streamline NuGet package creation, " +
+          "reducing deployment time and improving code modularity.",
+        "Developed custom tools and established migration patterns for SQL Server, " +
+          "enhancing engineering efficiency; mentored interns to foster team growth " +
+          "and knowledge sharing.",
+      ],
+      stack: [
+        ".NET",
+        "Docker",
+        "Kubernetes",
+        "SQL Server",
+        "Entity Framework",
+        "GitHub Actions",
+        "CI/CD",
+      ],
+    },
+    {
+      company: "Purple",
+      role: "Software Engineer",
+      period: "Apr 2021 — Mar 2022",
+      location: "Lehi, UT",
+      summary: "Logistics and partner integrations.",
+      highlights: [
+        "Collaborated with clients to gather requirements and deliver custom 3rd-party " +
+          "API integrations, optimizing logistics operations between Purple and several " +
+          "partnering companies.",
+      ],
+      stack: [],
+    },
+    {
+      company: "Silent Break Security / NetSPI",
+      role: "Software Engineer",
+      period: "Nov 2017 — Apr 2021",
+      location: "Lehi, UT",
+      summary: "Full-stack security tooling.",
+      highlights: [
+        "Built an enterprise-level application as a full-stack engineer, utilizing .NET " +
+          "backend services in Azure, SQL Server for the database, and ReactJS with " +
+          "TypeScript for the frontend.",
+        "Developed custom MITRE ATT&CK-based self-assessment tools and reporting " +
+          "solutions, boosting efficiency for security analysts and enabling secure " +
+          "digital report sharing with clients.",
+      ],
+      stack: [".NET", "Azure", "SQL Server", "React", "TypeScript"],
+    },
+    {
+      company: "BYU",
+      role: "Software Engineer",
+      period: "Jan 2017 — Nov 2017",
+      location: "Provo, UT",
+      summary: "Large-scale web applications.",
+      highlights: [
+        "Developed large-scale web applications as a full-stack engineer, leveraging " +
+          "ColdFusion, SQL Server, and JavaScript to deliver solutions for a global " +
+          "user base.",
+      ],
+      stack: ["ColdFusion", "SQL Server", "JavaScript"],
+    },
+    {
+      company: "EFusion Programming",
+      role: "Software Engineer",
+      period: "Feb 2015 — Dec 2017",
+      location: "St. George, UT",
+      summary: "Real-time tooling and payroll systems.",
+      highlights: [
+        "Developed real-time communication tools using WebSockets and built a time " +
+          "clock and payroll management system, efficiently tracking user hours across " +
+          "multiple time zones and generating printable payroll documents.",
+      ],
+      stack: ["WebSockets", "JavaScript"],
     },
   ],
 
   skills: [
-    { label: "Languages", items: ["TypeScript", "JavaScript", "Python", "SQL", "Bash"] },
-    { label: "Frameworks", items: ["React", "Next.js", "Node.js", "Express", "Tailwind CSS"] },
-    { label: "Infrastructure", items: ["Linux", "Nginx", "Docker", "PM2", "CI/CD", "Self-hosting"] },
-    { label: "Data", items: ["PostgreSQL", "SQLite", "Redis", "Prisma"] },
+    { label: "Languages", items: ["C#", "TypeScript", "JavaScript", "SQL"] },
+    { label: "Frameworks", items: [".NET / .NET Core", "Node.js", "React", "Entity Framework"] },
+    { label: "Infrastructure", items: ["Docker", "Kubernetes", "AWS", "Azure", "CI/CD", "GitHub Actions"] },
+    { label: "Data", items: ["SQL Server", "MySQL", "MongoDB"] },
   ],
 
   projects: [
@@ -161,28 +246,14 @@ export const defaultResumeData: ResumeData = {
       stack: ["Next.js", "TypeScript", "SQLite", "Tailwind CSS", "PM2"],
       repo: "https://github.com/cwpetrich/resume",
     },
-    {
-      name: "Project Two",
-      slug: "project-two",
-      description: "What it does and why it's interesting.",
-      stack: ["TODO", "TODO"],
-      href: "https://example.com",
-      repo: "https://github.com/cwpetrich/project-two",
-    },
-    {
-      name: "Project Three",
-      slug: "project-three",
-      description: "What it does and why it's interesting.",
-      stack: ["TODO", "TODO"],
-    },
   ],
 
   education: [
     {
-      school: "Your University",
+      school: "Dixie State University",
       credential: "B.S. in Computer Science",
-      period: "20XX — 20XX",
-      detail: "Relevant coursework, honors, or activities.",
+      period: "2016",
+      detail: "St. George, UT",
     },
   ],
 };
