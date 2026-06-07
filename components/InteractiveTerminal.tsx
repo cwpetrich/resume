@@ -222,6 +222,20 @@ export default function InteractiveTerminal({ data }: { data: ResumeData }) {
             "type your guess (or <span class='text-term-accent'>q</span> to quit).",
           ];
         }
+        case "ender":
+        case "ai":
+          return [
+            `<span class="text-term-accent">Ender</span> — my AI-augmented TDD platform. 🤖`,
+            "",
+            "It pairs deterministic automation with AI agents to run the",
+            "<span class='text-term-accent'>red → green → refactor</span> loop for you:",
+            "  1. you describe the spec",
+            "  2. Ender writes a failing test",
+            "  3. Ender writes code until it passes",
+            "  4. refactor — then repeat",
+            "",
+            `Fast, cheap, and actually reliable. want a demo? <span class="text-term-accent">${email}</span>`,
+          ];
         case "sudo":
           return [
             `<span class="text-red-400">${profile.username} is not in the sudoers file. This incident will be reported.</span> 🚓`,

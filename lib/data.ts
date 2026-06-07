@@ -86,24 +86,30 @@ export const defaultResumeData: ResumeData = {
     name: "Conrad Petrich",
     username: "conrad",
     host: "petrich.dev", // TODO: set to your real domain
-    title: "Senior Software Engineer",
+    title: "Senior Engineer · AI Tooling & Agentic Workflows",
     tagline:
-      "I build resilient, enterprise-grade systems across the full stack — and self-host the infrastructure they run on.",
+      "I build AI-augmented systems and the tooling that ships them — backed by a decade of enterprise engineering.",
     location: "Eagle Mountain, Utah",
     email: "conradpetrich@gmail.com",
     about: [
-      "I'm a senior software engineer with 10+ years building enterprise systems " +
-        "and full-stack web applications — C# and .NET on the backend, React and " +
-        "TypeScript on the front end, and event-driven, microservice architectures " +
-        "on AWS and Azure in between.",
+      "I'm a software engineer who builds AI-augmented systems and the tooling " +
+        "that ships them. Over the last few years I've gone deep on agentic " +
+        "development — working daily in Claude Code and OpenClaw, and building " +
+        "Ender, my own platform that pairs deterministic automation with AI agents " +
+        "to run a fast, affordable test-driven development loop.",
+      "That's built on a decade of enterprise engineering: C# and .NET on the " +
+        "backend, React and TypeScript on the front end, and event-driven, " +
+        "microservice architectures on AWS and Azure in between. I care about " +
+        "systems that are resilient, well-tested, and maintainable long after I've " +
+        "moved on.",
       "This very site is a small proof of that: a Next.js app I designed, built, " +
         "and self-host on my own server behind a reverse proxy, deployed with a " +
         "single script. Poke around — there may be more here than meets the eye.",
     ],
     stats: [
-      { label: "years building software", value: "10+" },
-      { label: "production deploys", value: "∞" },
-      { label: "servers self-hosted", value: "1" },
+      { label: "years shipping software", value: "10+" },
+      { label: "AI dev tools in daily use", value: "3" },
+      { label: "server self-hosted", value: "1" },
     ],
   },
 
@@ -137,11 +143,11 @@ export const defaultResumeData: ResumeData = {
       location: "Remote",
       summary: "Enterprise-grade event-driven systems.",
       highlights: [
-        "Designed, built, and maintained enterprise-level systems using C# with " +
-          ".NET Core, focusing on event-driven architecture with AWS services like " +
-          "SNS and SQS.",
-        "Managed multiple database types including MongoDB and MySQL, ensuring high " +
-          "code quality, adherence to best practices, and efficient solution delivery.",
+        "Designed, built, and operated enterprise event-driven systems in C# / " +
+          ".NET Core on AWS (SNS, SQS), decoupling services to improve throughput " +
+          "and fault tolerance under load.",
+        "Owned MongoDB and MySQL data layers and enforced code-quality standards in " +
+          "review, sustaining fast delivery without sacrificing reliability.",
       ],
       stack: ["C#", ".NET Core", "AWS", "SNS", "SQS", "MongoDB", "MySQL"],
     },
@@ -152,14 +158,14 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Microservice platform development.",
       highlights: [
-        "Designed and implemented .NET web APIs as microservices deployed via Docker " +
-          "in Kubernetes, using SQL Server with Entity Framework and reducing build times.",
-        "Spearheaded the extraction of common libraries from a monorepo, creating " +
-          "CI/CD pipelines with GitHub Actions to streamline NuGet package creation, " +
-          "reducing deployment time and improving code modularity.",
-        "Developed custom tools and established migration patterns for SQL Server, " +
-          "enhancing engineering efficiency; mentored interns to foster team growth " +
-          "and knowledge sharing.",
+        "Designed and shipped .NET microservice APIs on Docker + Kubernetes, backed " +
+          "by SQL Server with Entity Framework, and cut CI build times by ~XX% " +
+          "through pipeline caching and tuning.",
+        "Spearheaded extracting shared libraries from a monorepo and built GitHub " +
+          "Actions CI/CD to automate NuGet publishing — reducing deployment time by " +
+          "~XX% and improving code modularity across teams.",
+        "Built custom tooling and SQL Server migration patterns that streamlined " +
+          "releases, and mentored interns to grow the team's engineering practice.",
       ],
       stack: [
         ".NET",
@@ -191,12 +197,11 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Full-stack security tooling.",
       highlights: [
-        "Built an enterprise-level application as a full-stack engineer, utilizing .NET " +
-          "backend services in Azure, SQL Server for the database, and ReactJS with " +
-          "TypeScript for the frontend.",
-        "Developed custom MITRE ATT&CK-based self-assessment tools and reporting " +
-          "solutions, boosting efficiency for security analysts and enabling secure " +
-          "digital report sharing with clients.",
+        "Built an enterprise security platform end to end — .NET services on Azure, " +
+          "SQL Server, and a React + TypeScript front end used by analysts and clients.",
+        "Developed custom MITRE ATT&CK-based self-assessment and reporting tools that " +
+          "sped up analyst workflows and enabled secure digital report sharing with " +
+          "clients.",
       ],
       stack: [".NET", "Azure", "SQL Server", "React", "TypeScript"],
     },
@@ -229,6 +234,16 @@ export const defaultResumeData: ResumeData = {
   ],
 
   skills: [
+    {
+      label: "AI / Agentic",
+      items: [
+        "Claude Code",
+        "OpenClaw",
+        "Agentic workflows",
+        "LLM-driven TDD",
+        "Prompt engineering",
+      ],
+    },
     { label: "Languages", items: ["C#", "TypeScript", "JavaScript", "SQL"] },
     { label: "Frameworks", items: [".NET / .NET Core", "Node.js", "React", "Entity Framework"] },
     { label: "Infrastructure", items: ["Docker", "Kubernetes", "AWS", "Azure", "CI/CD", "GitHub Actions"] },
@@ -236,6 +251,17 @@ export const defaultResumeData: ResumeData = {
   ],
 
   projects: [
+    {
+      name: "Ender",
+      slug: "ender",
+      description:
+        "A custom development platform that fuses deterministic automation with " +
+        "AI agents to drive a fast, affordable test-driven workflow: describe the " +
+        "spec, and Ender runs the red-green-refactor loop to working, tested code. " +
+        "Built to make AI-assisted engineering reliable and cheap enough for real " +
+        "projects.",
+      stack: ["TypeScript", "Node.js", "Anthropic API", "Agentic TDD"],
+    },
     {
       name: "This Résumé Site",
       slug: "resume",
