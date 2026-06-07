@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "redeploy": "bash scripts/redeploy.sh",
     "lint": "next lint",
     "set-password": "node scripts/set-password.mjs",
     "sync-resume": "node scripts/sync-resume.mjs"

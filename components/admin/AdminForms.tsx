@@ -154,12 +154,18 @@ export function ExperienceForm({ initial }: { initial: Job[] }) {
               <TextInput label="period" value={jb.period} onChange={(v) => update({ period: v })} />
               <TextInput label="location" value={jb.location} onChange={(v) => update({ location: v })} />
             </div>
-            <TextInput label="summary" value={jb.summary} onChange={(v) => update({ summary: v })} />
+            <TextArea
+              label="summary"
+              value={jb.summary}
+              onChange={(v) => update({ summary: v })}
+              rows={2}
+            />
             <StringList
               label="highlights"
               values={jb.highlights}
               onChange={(highlights) => update({ highlights })}
               placeholder="Did X resulting in Y…"
+              multiline
             />
             <StringList
               label="stack"

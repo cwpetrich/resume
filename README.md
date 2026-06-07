@@ -121,6 +121,25 @@ pm2 save
 x64 Linux box. If the prebuilt binary is unavailable for your platform, install
 build tools (`build-essential`, `python3`) so it can compile on `npm ci`.
 
+#### Node version (avoid native-module mismatches)
+
+`better-sqlite3` is a native module, so the Node version used to **build** it
+(`npm ci`) must match the Node version PM2 **runs** the app with — otherwise you
+get `NODE_MODULE_VERSION` / `ERR_DLOPEN_FAILED` crashes at runtime. The project
+pins a version in [`.nvmrc`](.nvmrc) to keep these in sync.
+
+Three things must all agree on that version:
+
+1. **The build** — `nvm use` before `npm ci`. (On the git-pull deploy box, the
+   `post-merge` git hook does this automatically.)
+2. **The PM2 daemon** — if nvm's default Node has changed since the daemon
+   started, run `pm2 update` to respawn it under the current Node, then
+   `pm2 restart resume`.
+3. **The reboot unit** — `pm2 startup` bakes the *current* Node path into the
+   systemd service. **If you bump `.nvmrc`, re-run `pm2 startup` (with the new
+   path) followed by `pm2 save`**, or a reboot will resurrect PM2 under the old
+   Node and reintroduce the mismatch.
+
 ### Example Nginx reverse proxy
 
 ```nginx

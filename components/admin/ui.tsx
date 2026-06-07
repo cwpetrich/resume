@@ -61,11 +61,13 @@ export function StringList({
   values,
   onChange,
   placeholder,
+  multiline = false,
 }: {
   label: string;
   values: string[];
   onChange: (v: string[]) => void;
   placeholder?: string;
+  multiline?: boolean;
 }) {
   const set = (i: number, v: string) =>
     onChange(values.map((x, j) => (j === i ? v : x)));
@@ -75,12 +77,22 @@ export function StringList({
       <div className="space-y-2">
         {values.map((v, i) => (
           <div key={i} className="flex gap-2">
-            <input
-              value={v}
-              placeholder={placeholder}
-              onChange={(e) => set(i, e.target.value)}
-              className={inputCls}
-            />
+            {multiline ? (
+              <textarea
+                value={v}
+                rows={2}
+                placeholder={placeholder}
+                onChange={(e) => set(i, e.target.value)}
+                className={inputCls + " resize-y"}
+              />
+            ) : (
+              <input
+                value={v}
+                placeholder={placeholder}
+                onChange={(e) => set(i, e.target.value)}
+                className={inputCls}
+              />
+            )}
             <button
               type="button"
               onClick={() => onChange(values.filter((_, j) => j !== i))}
