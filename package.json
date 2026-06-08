@@ -9,7 +9,7 @@
     "redeploy": "bash scripts/redeploy.sh",
     "lint": "next lint",
     "set-password": "node scripts/set-password.mjs",
-    "sync-resume": "node scripts/sync-resume.mjs"
+    "sync-resume": "bash scripts/sync-resume.sh"
   },
   "dependencies": {
     "better-sqlite3": "^12.10.0",
