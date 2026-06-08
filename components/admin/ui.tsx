@@ -62,12 +62,14 @@ export function StringList({
   onChange,
   placeholder,
   multiline = false,
+  rows = 3,
 }: {
   label: string;
   values: string[];
   onChange: (v: string[]) => void;
   placeholder?: string;
   multiline?: boolean;
+  rows?: number;
 }) {
   const set = (i: number, v: string) =>
     onChange(values.map((x, j) => (j === i ? v : x)));
@@ -80,7 +82,7 @@ export function StringList({
             {multiline ? (
               <textarea
                 value={v}
-                rows={2}
+                rows={rows}
                 placeholder={placeholder}
                 onChange={(e) => set(i, e.target.value)}
                 className={inputCls + " resize-y"}
@@ -96,7 +98,10 @@ export function StringList({
             <button
               type="button"
               onClick={() => onChange(values.filter((_, j) => j !== i))}
-              className="shrink-0 rounded border border-term-border px-2 text-xs text-term-dim hover:border-red-400 hover:text-red-400"
+              className={
+                "shrink-0 rounded border border-term-border px-2 text-xs text-term-dim hover:border-red-400 hover:text-red-400" +
+                (multiline ? " self-start py-1" : "")
+              }
               aria-label="remove"
             >
               ✕

@@ -63,6 +63,7 @@ export function ProfileForm({ initial }: { initial: Profile }) {
         values={p.about}
         onChange={(v) => set({ about: v })}
         placeholder="A paragraph about you…"
+        multiline
       />
       <div>
         <span className="mb-1 block text-xs text-term-dim">stats</span>
