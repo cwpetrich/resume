@@ -21,7 +21,7 @@ export default function Home() {
     <>
       <Nav profile={profile} />
 
-      <main id="top" className="mx-auto max-w-3xl px-5 pb-20 sm:px-8">
+      <main id="top" className="no-print mx-auto max-w-3xl px-5 pb-20 sm:px-8">
         <Hero profile={profile} />
         <About profile={profile} />
         <Experience experience={experience} />
