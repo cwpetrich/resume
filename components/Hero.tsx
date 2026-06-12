@@ -53,7 +53,7 @@ export default function Hero({ profile }: { profile: Profile }) {
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-3 pt-3">
-            <DownloadResume />
+            <DownloadResume pdfTitle={`${profile.name} — Résumé`} />
             <a
               href="#contact"
               className="rounded border border-term-border px-4 py-2 text-sm text-term-fg transition-colors hover:border-term-accent hover:text-term-accent"

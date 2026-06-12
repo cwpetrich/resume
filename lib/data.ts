@@ -85,7 +85,7 @@ export const defaultResumeData: ResumeData = {
   profile: {
     name: "Conrad Petrich",
     username: "conrad",
-    host: "petrich.dev", // TODO: set to your real domain
+    host: "conradpetrich.me",
     title: "Senior Engineer · AI Tooling & Agentic Workflows",
     tagline:
       "I build AI-augmented systems and the tooling that ships them — backed by a decade of enterprise engineering.",
@@ -159,11 +159,11 @@ export const defaultResumeData: ResumeData = {
       summary: "Microservice platform development.",
       highlights: [
         "Designed and shipped .NET microservice APIs on Docker + Kubernetes, backed " +
-          "by SQL Server with Entity Framework, and cut CI build times by ~XX% " +
-          "through pipeline caching and tuning.",
+          "by SQL Server with Entity Framework, and cut CI build times through " +
+          "pipeline caching and tuning.",
         "Spearheaded extracting shared libraries from a monorepo and built GitHub " +
-          "Actions CI/CD to automate NuGet publishing — reducing deployment time by " +
-          "~XX% and improving code modularity across teams.",
+          "Actions CI/CD to automate NuGet publishing — speeding up deployments " +
+          "and improving code modularity across teams.",
         "Built custom tooling and SQL Server migration patterns that streamlined " +
           "releases, and mentored interns to grow the team's engineering practice.",
       ],
