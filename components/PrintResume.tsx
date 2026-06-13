@@ -17,8 +17,17 @@ function contactText(s: SocialLink): string {
     : s.handle;
 }
 
+/**
+ * How many of the most-recent roles get the full bullet treatment. Anything
+ * older collapses into a single "earlier roles" line that points to the site
+ * for the complete history — keeps the page focused on recent work.
+ */
+const FULL_ROLE_COUNT = 5;
+
 export default function PrintResume({ data }: { data: ResumeData }) {
-  const { profile, socials, experience, skills, projects, education } = data;
+  const { profile, socials, experience, skills, education } = data;
+  const recentRoles = experience.slice(0, FULL_ROLE_COUNT);
+  const earlierRoles = experience.slice(FULL_ROLE_COUNT);
   return (
     <div className="print-only mx-auto max-w-3xl text-black">
       {/* Header */}
@@ -53,43 +62,37 @@ export default function PrintResume({ data }: { data: ResumeData }) {
         <h2 className="border-b border-black/30 text-sm font-bold uppercase tracking-wide">
           Experience
         </h2>
-        {experience.map((j, i) => {
-          // Older roles described by a single bullet collapse to one line so
-          // the PDF stays on one page — the full history lives on the site.
-          const compact = i >= 3 && j.highlights.length <= 1;
-          return compact ? (
-            <div
-              key={j.company + j.role}
-              className="print-break mt-1.5 flex justify-between gap-4 text-sm"
-            >
-              <span>
-                <span className="font-semibold">
-                  {j.role} — {j.company}
-                </span>
-                {" · "}
-                {j.summary.replace(/\.$/, "")}
+        {recentRoles.map((j) => (
+          <div key={j.company + j.role} className="print-break mt-1.5 text-sm">
+            <div className="flex justify-between gap-4">
+              <span className="font-semibold">
+                {j.role} — {j.company}
               </span>
               <span className="whitespace-nowrap">{j.period}</span>
             </div>
-          ) : (
-            <div key={j.company + j.role} className="print-break mt-1.5 text-sm">
-              <div className="flex justify-between gap-4">
-                <span className="font-semibold">
-                  {j.role} — {j.company}
-                </span>
-                <span className="whitespace-nowrap">{j.period}</span>
-              </div>
-              <p className="text-xs italic">
-                {j.location} · {j.summary}
-              </p>
-              <ul className="ml-4 list-disc">
-                {j.highlights.map((h, i) => (
-                  <li key={i}>{h}</li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
+            <p className="text-xs italic">
+              {j.location} · {j.summary}
+            </p>
+            <ul className="ml-4 list-disc">
+              {j.highlights.map((h, i) => (
+                <li key={i}>{h}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        {earlierRoles.length > 0 && (
+          <p className="mt-1.5 text-sm">
+            <span className="font-semibold">Earlier roles:</span>{" "}
+            {earlierRoles
+              .map((j) => `${j.role}, ${j.company} (${j.period})`)
+              .join("; ")}
+            . Full history at{" "}
+            <a href={`https://${profile.host}`} className="font-semibold">
+              {profile.host}
+            </a>
+            .
+          </p>
+        )}
       </section>
 
       {/* Skills */}
@@ -105,24 +108,6 @@ export default function PrintResume({ data }: { data: ResumeData }) {
             </li>
           ))}
         </ul>
-      </section>
-
-      {/* Projects */}
-      <section className="mt-2">
-        <h2 className="border-b border-black/30 text-sm font-bold uppercase tracking-wide">
-          Projects
-        </h2>
-        {projects.map((p) => (
-          <div key={p.slug} className="print-break mt-1 text-sm">
-            <span className="font-semibold">{p.name}</span> —{" "}
-            {p.slug === "resume"
-              ? `this résumé's online home (${profile.host}): an interactive ` +
-                "terminal-themed Next.js app with a database-backed admin " +
-                "panel, self-hosted on my own hardware."
-              : p.description}{" "}
-            <span className="text-xs italic">({p.stack.join(", ")})</span>
-          </div>
-        ))}
       </section>
 
       {/* Education */}
