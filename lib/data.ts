@@ -86,30 +86,30 @@ export const defaultResumeData: ResumeData = {
     name: "Conrad Petrich",
     username: "conrad",
     host: "conradpetrich.me",
-    title: "Senior Engineer · AI Tooling & Agentic Workflows",
+    title: "Senior Software Engineer · .NET, Cloud & Full-Stack",
     tagline:
-      "I build enterprise applications, AI-augmented systems, and the tooling " +
-      "that ships them — backed by a decade of experience. Currently open to new roles.",
+      "I build reliable enterprise systems in C# / .NET and TypeScript, from " +
+      "event-driven microservices to the front ends people use — backed by a " +
+      "decade of experience. Currently open to new roles.",
     location: "Eagle Mountain, Utah",
     email: "conradpetrich@gmail.com",
     about: [
-      "I'm a software engineer who builds AI-augmented systems and the tooling " +
-        "that ships them. Over the last few years I've gone deep on agentic " +
-        "development, working daily in Claude Code and OpenClaw. Outside of work " +
-        "I run Side Questered, a small company where I build and maintain " +
-        "open-source tools like ABS Butler.",
-      "That's built on a decade of enterprise engineering: C# and .NET on the " +
-        "backend, React and TypeScript on the front end, and event-driven, " +
-        "microservice architectures on AWS and Azure in between. I care about " +
-        "systems that are resilient, well-tested, and maintainable long after I've " +
-        "moved on.",
+      "I'm a senior software engineer with a decade of experience building " +
+        "enterprise systems: C# and .NET on the backend, React and TypeScript on " +
+        "the front end, and event-driven microservice architectures on AWS and " +
+        "Azure in between. I've built security tooling, logistics integrations, " +
+        "and income verification platforms, and I care about systems that are " +
+        "resilient, well-tested, and maintainable long after I've moved on.",
+      "I also make AI tools like Claude Code part of how I work day to day. " +
+        "Outside of work I run Side Questered, a small company where I build and " +
+        "maintain open-source tools like ABS Butler.",
       "This very site is a small proof of that: a Next.js app I designed, built, " +
         "and self-host on my own hardware behind a reverse proxy, deployed with a " +
         "single script. Poke around — there may be more here than meets the eye.",
     ],
     stats: [
       { label: "years shipping software", value: "10+" },
-      { label: "AI dev tools in daily use", value: "3" },
+      { label: "companies", value: "6" },
       { label: "servers self-hosted", value: "5" },
     ],
   },
@@ -251,16 +251,6 @@ export const defaultResumeData: ResumeData = {
   ],
 
   skills: [
-    {
-      label: "AI / Agentic",
-      items: [
-        "Claude Code",
-        "OpenClaw",
-        "Agentic workflows",
-        "LLM-driven TDD",
-        "Prompt engineering",
-      ],
-    },
     { label: "Languages", items: ["C#", "TypeScript", "JavaScript", "SQL"] },
     {
       label: "Frameworks",
@@ -271,6 +261,16 @@ export const defaultResumeData: ResumeData = {
       items: ["Docker", "Kubernetes", "Helm", "ArgoCD", "AWS", "Azure", "GitHub Actions"],
     },
     { label: "Data", items: ["SQL Server", "MySQL", "MongoDB", "Redis"] },
+    {
+      label: "AI Tooling",
+      items: [
+        "Claude Code",
+        "OpenClaw",
+        "Agentic workflows",
+        "LLM-driven TDD",
+        "Prompt engineering",
+      ],
+    },
   ],
 
   projects: [
