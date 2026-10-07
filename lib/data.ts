@@ -88,28 +88,29 @@ export const defaultResumeData: ResumeData = {
     host: "conradpetrich.me",
     title: "Senior Engineer · AI Tooling & Agentic Workflows",
     tagline:
-      "I build AI-augmented systems and the tooling that ships them — backed by a decade of enterprise engineering.",
+      "I build enterprise applications, AI-augmented systems, and the tooling " +
+      "that ships them — backed by a decade of experience. Currently open to new roles.",
     location: "Eagle Mountain, Utah",
     email: "conradpetrich@gmail.com",
     about: [
       "I'm a software engineer who builds AI-augmented systems and the tooling " +
         "that ships them. Over the last few years I've gone deep on agentic " +
-        "development — working daily in Claude Code and OpenClaw, and building " +
-        "Ender, my own platform that pairs deterministic automation with AI agents " +
-        "to run a fast, affordable test-driven development loop.",
+        "development, working daily in Claude Code and OpenClaw. Outside of work " +
+        "I run Side Questered, a small company where I build and maintain " +
+        "open-source tools like ABS Butler.",
       "That's built on a decade of enterprise engineering: C# and .NET on the " +
         "backend, React and TypeScript on the front end, and event-driven, " +
         "microservice architectures on AWS and Azure in between. I care about " +
         "systems that are resilient, well-tested, and maintainable long after I've " +
         "moved on.",
       "This very site is a small proof of that: a Next.js app I designed, built, " +
-        "and self-host on my own server behind a reverse proxy, deployed with a " +
+        "and self-host on my own hardware behind a reverse proxy, deployed with a " +
         "single script. Poke around — there may be more here than meets the eye.",
     ],
     stats: [
       { label: "years shipping software", value: "10+" },
       { label: "AI dev tools in daily use", value: "3" },
-      { label: "server self-hosted", value: "1" },
+      { label: "servers self-hosted", value: "5" },
     ],
   },
 
@@ -129,27 +130,39 @@ export const defaultResumeData: ResumeData = {
       role: "Senior Software Engineer",
       period: "Jul 2025 — Mar 2026",
       location: "Hybrid",
-      summary: "Software engineering for Brigham Young University.",
+      summary: "Application development and architecture consulting.",
       highlights: [
-        "Provide consultation on software architecture and tooling while building " +
-          "new applications and maintaining legacy applications and systems.",
+        "Designed, built, and maintained applications in .NET, AngularJS, and Next.js.",
+        "Consulted on application architecture and data integration across Redis, " +
+          "SQL, and MongoDB.",
+        "Deployed applications with Docker and Kubernetes.",
+        "Maintained legacy applications and systems alongside new development.",
       ],
-      stack: [],
+      stack: [
+        ".NET",
+        "C#",
+        "TypeScript",
+        "Next.js",
+        "AngularJS",
+        "Docker",
+        "Kubernetes",
+        "SQL",
+        "MongoDB",
+        "ColdFusion",
+      ],
     },
     {
       company: "Steady IQ",
       role: "Senior Software Engineer",
       period: "Sep 2024 — Jun 2025",
       location: "Remote",
-      summary: "Enterprise-grade event-driven systems.",
+      summary: "Event-driven microservices for income verification.",
       highlights: [
-        "Designed, built, and operated enterprise event-driven systems in C# / " +
-          ".NET Core on AWS (SNS, SQS), decoupling services to improve throughput " +
-          "and fault tolerance under load.",
-        "Owned MongoDB and MySQL data layers and enforced code-quality standards in " +
-          "review, sustaining fast delivery without sacrificing reliability.",
+        "Built income verification features for non-traditional workers.",
+        "Engineered C# / .NET microservices that communicate over AWS SNS and SQS.",
+        "Managed SQL and MongoDB data stores covering a wide range of income types.",
       ],
-      stack: ["C#", ".NET Core", "AWS", "SNS", "SQS", "MongoDB", "MySQL"],
+      stack: ["C#", ".NET", "AWS", "SNS", "SQS", "MongoDB", "MySQL", "Docker", "Datadog", "Jenkins"],
     },
     {
       company: "Nerd United",
@@ -158,23 +171,25 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Microservice platform development.",
       highlights: [
-        "Designed and shipped .NET microservice APIs on Docker + Kubernetes, backed " +
-          "by SQL Server with Entity Framework, and cut CI build times through " +
-          "pipeline caching and tuning.",
-        "Spearheaded extracting shared libraries from a monorepo and built GitHub " +
-          "Actions CI/CD to automate NuGet publishing — speeding up deployments " +
-          "and improving code modularity across teams.",
-        "Built custom tooling and SQL Server migration patterns that streamlined " +
-          "releases, and mentored interns to grow the team's engineering practice.",
+        "Architected, built, and maintained C# / .NET microservices, delivered as " +
+          "versioned Docker images.",
+        "Connected services through AWS SNS and SQS messaging.",
+        "Built CI/CD pipelines with ArgoCD, Helm, and Kubernetes.",
       ],
       stack: [
         ".NET",
+        "C#",
         "Docker",
         "Kubernetes",
-        "SQL Server",
+        "Helm",
+        "ArgoCD",
         "Entity Framework",
-        "GitHub Actions",
-        "CI/CD",
+        "SQL",
+        "MongoDB",
+        "Redis",
+        "AWS",
+        "TypeScript",
+        "Next.js",
       ],
     },
     {
@@ -184,11 +199,11 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Logistics and partner integrations.",
       highlights: [
-        "Collaborated with clients to gather requirements and deliver custom 3rd-party " +
-          "API integrations, optimizing logistics operations between Purple and several " +
-          "partnering companies.",
+        "Integrated third-party logistics APIs with Purple's systems on AWS.",
+        "Built and maintained Node.js services supporting nationwide sales operations.",
+        "Worked directly with partner companies to scope and deliver custom integrations.",
       ],
-      stack: [],
+      stack: ["JavaScript", "Node.js", "AWS", "SQL"],
     },
     {
       company: "Silent Break Security / NetSPI",
@@ -197,13 +212,12 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Full-stack security tooling.",
       highlights: [
-        "Built an enterprise security platform end to end — .NET services on Azure, " +
-          "SQL Server, and a React + TypeScript front end used by analysts and clients.",
-        "Developed custom MITRE ATT&CK-based self-assessment and reporting tools that " +
-          "sped up analyst workflows and enabled secure digital report sharing with " +
-          "clients.",
+        "Built and maintained .NET and React projects used by security analysts.",
+        "Developed a shared client and consultant portal for generating " +
+          "cybersecurity reports and sharing them securely.",
+        "Created attack-simulation modules that let clients test their network defenses.",
       ],
-      stack: [".NET", "Azure", "SQL Server", "React", "TypeScript"],
+      stack: [".NET", "C#", "React", "TypeScript", "Azure"],
     },
     {
       company: "BYU",
@@ -212,24 +226,27 @@ export const defaultResumeData: ResumeData = {
       location: "Provo, UT",
       summary: "Large-scale web applications.",
       highlights: [
-        "Developed large-scale web applications as a full-stack engineer, leveraging " +
-          "ColdFusion, SQL Server, and JavaScript to deliver solutions for a global " +
-          "user base.",
+        "Integrated legacy ColdFusion servers with Canvas's Ruby on Rails API.",
+        "Championed the move to CFScript, making the ColdFusion codebase more efficient.",
+        "Ran training sessions on efficient DOM and vanilla JavaScript practices.",
+        "Integrated libraries that improved developer experience and UI quality.",
       ],
-      stack: ["ColdFusion", "SQL Server", "JavaScript"],
+      stack: ["ColdFusion", "JavaScript", "Ruby", "Ruby on Rails", "SQL"],
     },
     {
       company: "EFusion Programming",
       role: "Software Engineer",
-      period: "Feb 2015 — Dec 2017",
+      period: "Feb 2015 — Dec 2016",
       location: "St. George, UT",
       summary: "Real-time tooling and payroll systems.",
       highlights: [
-        "Developed real-time communication tools using WebSockets and built a time " +
-          "clock and payroll management system, efficiently tracking user hours across " +
-          "multiple time zones and generating printable payroll documents.",
+        "Designed and built an internal payroll system for time tracking and check printing.",
+        "Ported legacy escrow-management software from a DOS terminal app to an " +
+          "Angular web app.",
+        "Rewrote an outdated Visual Basic application in Ruby on Rails with MySQL.",
+        "Built custom workflows to streamline agent coordination.",
       ],
-      stack: ["WebSockets", "JavaScript"],
+      stack: ["Ruby on Rails", "Ruby", "AngularJS", "JavaScript", "CoffeeScript", "MySQL"],
     },
   ],
 
@@ -245,22 +262,38 @@ export const defaultResumeData: ResumeData = {
       ],
     },
     { label: "Languages", items: ["C#", "TypeScript", "JavaScript", "SQL"] },
-    { label: "Frameworks", items: [".NET / .NET Core", "Node.js", "React", "Entity Framework"] },
-    { label: "Infrastructure", items: ["Docker", "Kubernetes", "AWS", "Azure", "CI/CD", "GitHub Actions"] },
-    { label: "Data", items: ["SQL Server", "MySQL", "MongoDB"] },
+    {
+      label: "Frameworks",
+      items: [".NET / .NET Core", "Entity Framework", "Node.js", "React", "Next.js", "Angular"],
+    },
+    {
+      label: "Infrastructure",
+      items: ["Docker", "Kubernetes", "Helm", "ArgoCD", "AWS", "Azure", "GitHub Actions"],
+    },
+    { label: "Data", items: ["SQL Server", "MySQL", "MongoDB", "Redis"] },
   ],
 
   projects: [
     {
-      name: "Ender",
-      slug: "ender",
+      name: "ABS Butler",
+      slug: "abs-butler",
       description:
-        "A custom development platform that fuses deterministic automation with " +
-        "AI agents to drive a fast, affordable test-driven workflow: describe the " +
-        "spec, and Ender runs the red-green-refactor loop to working, tested code. " +
-        "Built to make AI-assisted engineering reliable and cheap enough for real " +
-        "projects.",
-      stack: ["TypeScript", "Node.js", "Anthropic API", "Agentic TDD"],
+        "A self-hosted butler for AudiobookShelf libraries: it audits for problems, " +
+        "fills in and normalizes metadata, organizes files on disk, and tags books " +
+        "with age bands and content flags. Every change is a dry run by default. " +
+        "Ships as a Docker image and a Snap.",
+      stack: ["TypeScript", "Node.js", "Docker", "Snap", "AudiobookShelf API"],
+      repo: "https://github.com/cwpetrich/abs-butler",
+    },
+    {
+      name: "Side Questered",
+      slug: "sidequestered",
+      description:
+        "My small Utah software company, home to the side projects I build and " +
+        "maintain: ABS Butler (free and open source) and Audiobook Co-op, a " +
+        "multi-server AudiobookShelf player for Android and iOS, now in testing.",
+      stack: ["TypeScript", "Open source", "Mobile"],
+      href: "https://sidequestered.com",
     },
     {
       name: "This Résumé Site",

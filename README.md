@@ -36,12 +36,13 @@ There are two ways to manage content:
 2. **Seed defaults in [`lib/data.ts`](lib/data.ts).** `defaultResumeData` is used
    to **seed the database the first time the app runs**. Editing it changes the
    *starting* content of a fresh install; it does not affect a database that's
-   already been seeded. Placeholder text is marked with `// TODO`.
+   already been seeded. To push the seed into the live database, run
+   `npm run sync-resume` on the server.
 
-A few things to personalize first (either in the admin panel or the seed):
-
-- `profile.host` — set to your real domain (used in the prompt and meta tags)
-- `experience`, `projects`, `education` — replace the placeholder entries
+> **Keep the two in sync.** `sync-resume` is destructive: it overwrites every
+> section of the live database with the seed, so any `/admin` edits that aren't
+> also in `lib/data.ts` are lost. Copy admin edits back into the seed before
+> syncing.
 
 ## Admin panel & authentication
 
@@ -164,6 +165,7 @@ app/
   admin/          protected editor page + save actions
 components/
   …               public UI sections (Hero, Experience, Skills, …)
+  PrintResume.tsx one-page print/PDF résumé
   games/          Snake + Matrix-rain easter eggs
   admin/          admin forms + reusable form primitives
 lib/
@@ -175,6 +177,8 @@ lib/
 middleware.ts     gates /admin
 scripts/
   set-password.mjs  generates ADMIN_* + AUTH_SECRET env values
+  sync-resume.*     pushes the seed (lib/data.ts) into the live database
+  redeploy.sh       server-side rebuild + PM2 reload
 deploy.sh         one-command deploy to the self-hosted box
 ecosystem.config.js   PM2 process definition
 data/             SQLite database (git-ignored, lives only on the server)

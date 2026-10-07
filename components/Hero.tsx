@@ -70,8 +70,8 @@ export default function Hero({ profile }: { profile: Profile }) {
 
           <p className="pt-2 text-xs text-term-dim/70">
             <span className="text-term-accent">tip:</span> scroll down for the
-            full résumé, or scroll to the bottom for an interactive terminal.
-            There are a few things hidden in here — try the{" "}
+            full résumé, with an interactive terminal at the bottom. A few
+            things are hidden in here — try the{" "}
             <span className="text-term-fg">↑ ↑ ↓ ↓ ← → ← → B A</span> code.
           </p>
         </div>

@@ -17,8 +17,8 @@ export default function Contact({
   return (
     <Section id="contact" command="./contact.sh">
       <p className="mb-5 max-w-xl text-sm leading-relaxed text-term-dim">
-        Open to interesting work and conversations. The fastest way to reach me
-        is email — or find me on the links below.
+        I&apos;m looking for my next role and happy to talk. The fastest way to
+        reach me is email — or find me on the links below.
       </p>
 
       <ul className="space-y-2.5">
