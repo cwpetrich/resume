@@ -71,6 +71,16 @@ CREATE TABLE IF NOT EXISTS education (
   period     TEXT NOT NULL,
   detail     TEXT
 );
+CREATE TABLE IF NOT EXISTS tailored_resumes (
+  id              TEXT PRIMARY KEY,
+  created_at      TEXT NOT NULL,
+  label           TEXT NOT NULL,
+  job_description TEXT NOT NULL,
+  summary         TEXT NOT NULL,
+  skills          TEXT NOT NULL, -- JSON SkillGroup[]
+  experience      TEXT NOT NULL, -- JSON Job[]
+  model           TEXT NOT NULL
+);
 `;
 
 type DB = Database.Database;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth";
-import { getResumeData } from "@/lib/resume";
+import { getResumeData, listTailoredResumes } from "@/lib/resume";
 import LogoutButton from "@/components/admin/LogoutButton";
 import {
   ProfileForm,
@@ -10,6 +10,7 @@ import {
   SkillsForm,
   ProjectsForm,
   EducationForm,
+  TailorPanel,
 } from "@/components/admin/AdminForms";
 
 export const metadata = { title: "Admin", robots: { index: false } };
@@ -24,6 +25,7 @@ const NAV = [
   ["skills", "Skills"],
   ["projects", "Projects"],
   ["education", "Education"],
+  ["tailor", "Tailor for a job"],
 ];
 
 export default async function AdminPage() {
@@ -31,6 +33,7 @@ export default async function AdminPage() {
   if (!(await getCurrentSession())) redirect("/login");
 
   const data = getResumeData();
+  const tailoredResumes = listTailoredResumes();
 
   return (
     <div className="min-h-screen">
@@ -74,6 +77,7 @@ export default async function AdminPage() {
         <SkillsForm initial={data.skills} />
         <ProjectsForm initial={data.projects} />
         <EducationForm initial={data.education} />
+        <TailorPanel initial={tailoredResumes} />
       </main>
     </div>
   );

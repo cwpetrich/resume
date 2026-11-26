@@ -9,6 +9,7 @@ import type {
   SkillGroup,
   Project,
   SchoolEntry,
+  TailoredResumeRecord,
 } from "./data";
 
 const j = <T>(s: string): T => JSON.parse(s) as T;
@@ -193,4 +194,61 @@ export function saveEducation(entries: SchoolEntry[]) {
       ins.run({ ...e, sort: i, detail: e.detail || null }),
     );
   })();
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Tailored résumés — saved output of the job-tailoring tool (admin only).   */
+/* -------------------------------------------------------------------------- */
+
+export function saveTailoredResume(r: TailoredResumeRecord) {
+  getDb()
+    .prepare(
+      `INSERT INTO tailored_resumes (id, created_at, label, job_description, summary, skills, experience, model)
+       VALUES (@id, @createdAt, @label, @jobDescription, @summary, @skills, @experience, @model)`,
+    )
+    .run({
+      ...r,
+      skills: JSON.stringify(r.skills),
+      experience: JSON.stringify(r.experience),
+    });
+}
+
+export type TailoredResumeSummary = Pick<
+  TailoredResumeRecord,
+  "id" | "createdAt" | "label" | "model"
+>;
+
+export function listTailoredResumes(): TailoredResumeSummary[] {
+  const rows = getDb()
+    .prepare(
+      "SELECT id, created_at, label, model FROM tailored_resumes ORDER BY created_at DESC",
+    )
+    .all() as Record<string, string>[];
+  return rows.map((r) => ({
+    id: r.id,
+    createdAt: r.created_at,
+    label: r.label,
+    model: r.model,
+  }));
+}
+
+export function getTailoredResume(id: string): TailoredResumeRecord | null {
+  const r = getDb().prepare("SELECT * FROM tailored_resumes WHERE id = ?").get(id) as
+    | Record<string, string>
+    | undefined;
+  if (!r) return null;
+  return {
+    id: r.id,
+    createdAt: r.created_at,
+    label: r.label,
+    jobDescription: r.job_description,
+    summary: r.summary,
+    skills: j<SkillGroup[]>(r.skills),
+    experience: j<Job[]>(r.experience),
+    model: r.model,
+  };
+}
+
+export function deleteTailoredResume(id: string) {
+  getDb().prepare("DELETE FROM tailored_resumes WHERE id = ?").run(id);
 }

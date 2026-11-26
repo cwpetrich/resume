@@ -65,12 +65,32 @@ ADMIN_PASSWORD_HASH=<generated>
 AUTH_SECRET=<generated>
 # optional — defaults to ./data/resume.db
 # DATABASE_PATH=/var/lib/resume/resume.db
+# required for the "tailor résumé to a job" admin tool
+# ANTHROPIC_API_KEY=sk-ant-...
+# optional — defaults to claude-sonnet-4-5
+# TAILOR_MODEL=claude-sonnet-4-5
 ```
 
 **2. Restart the app.** Then visit `/admin`, log in, and edit away.
 
 > Without these env vars the public site still works (read-only); only the admin
 > login is disabled. In production, `AUTH_SECRET` is required.
+
+## Tailoring a résumé to a job posting
+
+From `/admin`, the **"Tailor résumé to a job"** panel lets you paste a job
+description and a label (e.g. "Acme Corp — Staff Engineer"). An LLM
+(Anthropic's API, configured via `ANTHROPIC_API_KEY`) reorders your real skill
+groups and experience, and selects/reorders which of each job's *existing*
+highlight bullets to foreground for that posting — it never invents new
+highlight text, companies, dates, or skills; only the tailored intro summary
+paragraph is freshly written, and only from facts already in your résumé.
+
+Every generated version is saved (labeled, timestamped) and viewable at
+`/admin/tailored/<id>`, with its own "download résumé (.pdf)" button that
+reuses the same print pipeline as the main résumé. Saved versions can be
+deleted from the admin panel. This tool and its output are admin-only — there
+is no public job-tailoring page.
 
 ## Data & persistence
 
@@ -93,6 +113,18 @@ Open [http://localhost:3000](http://localhost:3000).
 npm run build   # compile
 npm run start   # serve the production build on :3000
 ```
+
+## Tests
+
+```bash
+npm test
+```
+
+Covers the job-tailoring reconciliation logic in `lib/tailorPlan.ts` — the
+code that guarantees the LLM can only reorder/select real résumé data and
+never fabricate companies, dates, skills, or highlight text. Uses Node's
+built-in test runner (via `tsx`, no extra framework) since this project has
+no other test suite yet.
 
 ## Self-hosting (how this site actually runs)
 
@@ -163,15 +195,18 @@ app/
   layout.tsx      metadata / SEO / JSON-LD
   login/          login page + auth action
   admin/          protected editor page + save actions
+  admin/tailored/[id]/  view + download one saved tailored résumé
 components/
   …               public UI sections (Hero, Experience, Skills, …)
-  PrintResume.tsx one-page print/PDF résumé
+  PrintResume.tsx print/PDF résumé (multi-page, full detail)
   games/          Snake + Matrix-rain easter eggs
   admin/          admin forms + reusable form primitives
 lib/
   data.ts         types + seed defaults (defaultResumeData)
   db.ts           SQLite connection, schema, first-run seeding
-  resume.ts       read (getResumeData) + per-section writes
+  resume.ts       read (getResumeData) + per-section writes + tailored-résumé CRUD
+  tailorPlan.ts   pure prompt-building + plan reconciliation (unit-tested)
+  tailor.ts       Anthropic API call + wiring (server-only, uses tailorPlan.ts)
   auth.ts         password hashing + session cookie (Node runtime)
   session.ts      JWT sign/verify (edge-safe, used by middleware)
 middleware.ts     gates /admin

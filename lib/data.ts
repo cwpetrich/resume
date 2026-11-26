@@ -67,6 +67,22 @@ export interface SchoolEntry {
   detail?: string;
 }
 
+/** A résumé variant generated and saved by the job-tailoring tool (admin only). */
+export interface TailoredResumeRecord {
+  id: string;
+  createdAt: string;
+  /** Short label the admin gives it, e.g. "Acme Corp — Staff Engineer". */
+  label: string;
+  jobDescription: string;
+  /** LLM-written summary tailored to the posting, from real profile/experience facts only. */
+  summary: string;
+  /** Existing skill groups, reordered by relevance — items are never altered. */
+  skills: SkillGroup[];
+  /** Existing jobs, reordered by relevance, with highlights selected/reordered — never rewritten text. */
+  experience: Job[];
+  model: string;
+}
+
 /** The full assembled shape the UI consumes. */
 export interface ResumeData {
   profile: Profile;

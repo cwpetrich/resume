@@ -107,11 +107,12 @@ body {
     print-color-adjust: exact;
   }
 
-  /* Tighter leading than the screen layout so the résumé fits one page
-     (Tailwind's text-* utilities set ~1.43 line-height). */
+  /* Comfortable reading line-height — the résumé is allowed to run multiple
+     pages, so we no longer compress leading just to fight for space
+     (Tailwind's text-* utilities set ~1.43 line-height by default). */
   .print-only,
   .print-only * {
-    line-height: 1.3;
+    line-height: 1.35;
   }
 
   /* Single restrained accent: the site's phosphor green, darkened for paper

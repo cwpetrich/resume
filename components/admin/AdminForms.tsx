@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import type {
   Profile,
   SocialLink,
@@ -16,7 +16,10 @@ import {
   saveSkillsAction,
   saveProjectsAction,
   saveEducationAction,
+  generateTailoredResumeAction,
+  deleteTailoredResumeAction,
 } from "@/app/admin/actions";
+import type { TailoredResumeSummary } from "@/lib/resume";
 import { TextInput, TextArea, StringList, ListEditor, SectionCard } from "./ui";
 
 /* ----------------------------- Profile & contact ----------------------------- */
@@ -304,5 +307,115 @@ export function EducationForm({ initial }: { initial: SchoolEntry[] }) {
         )}
       />
     </SectionCard>
+  );
+}
+
+/* --------------------------- Tailor for a job posting ------------------------- */
+export function TailorPanel({ initial }: { initial: TailoredResumeSummary[] }) {
+  const [label, setLabel] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [saved, setSaved] = useState<TailoredResumeSummary[]>(initial);
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  const generate = () => {
+    setError(null);
+    start(async () => {
+      const res = await generateTailoredResumeAction(jobDescription, label);
+      if (!res.ok || !res.id) {
+        setError(res.error || "generation failed");
+        return;
+      }
+      setSaved([
+        {
+          id: res.id,
+          createdAt: new Date().toISOString(),
+          label: label.trim() || "Untitled",
+          model: "",
+        },
+        ...saved,
+      ]);
+      setJobDescription("");
+      setLabel("");
+    });
+  };
+
+  const remove = (id: string) => {
+    setSaved(saved.filter((s) => s.id !== id));
+    start(async () => {
+      await deleteTailoredResumeAction(id);
+    });
+  };
+
+  return (
+    <section
+      id="tailor"
+      className="scroll-mt-20 rounded-lg border border-term-border bg-term-panel p-5"
+    >
+      <div className="mb-4">
+        <h2 className="text-sm font-bold text-term-fg">Tailor résumé to a job</h2>
+        <p className="text-xs text-term-dim">
+          Paste a job posting. An LLM reorders your real skills and experience
+          and selects which highlights to foreground for this posting — it
+          never invents facts. Each result is saved below.
+        </p>
+      </div>
+      <div className="space-y-4">
+        <TextInput
+          label="label (e.g. company — role)"
+          value={label}
+          onChange={setLabel}
+        />
+        <TextArea
+          label="job description"
+          value={jobDescription}
+          onChange={setJobDescription}
+          rows={8}
+        />
+        {error && <p className="text-xs text-red-400">{error}</p>}
+        <button
+          type="button"
+          onClick={generate}
+          disabled={pending || !jobDescription.trim()}
+          className="rounded border border-term-accent bg-term-accent/10 px-4 py-1.5 text-sm font-semibold text-term-accent transition-colors hover:bg-term-accent/20 disabled:opacity-50"
+        >
+          {pending ? "working…" : "generate tailored résumé"}
+        </button>
+      </div>
+
+      {saved.length > 0 && (
+        <div className="mt-6 space-y-2 border-t border-term-border pt-4">
+          <span className="mb-1 block text-xs text-term-dim">saved versions</span>
+          {saved.map((t) => (
+            <div
+              key={t.id}
+              className="flex items-center justify-between gap-3 rounded border border-term-border bg-black/20 px-3 py-2 text-sm"
+            >
+              <div className="min-w-0">
+                <a
+                  href={`/admin/tailored/${t.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate font-semibold text-term-accent hover:underline"
+                >
+                  {t.label}
+                </a>
+                <p className="text-xs text-term-dim">
+                  {new Date(t.createdAt).toLocaleString()}
+                  {t.model ? ` · ${t.model}` : ""}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => remove(t.id)}
+                className="shrink-0 rounded border border-term-border px-2 py-1 text-xs text-term-dim hover:border-red-400 hover:text-red-400"
+              >
+                ✕ delete
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }

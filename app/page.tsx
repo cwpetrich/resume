@@ -24,8 +24,8 @@ export default function Home() {
       <main id="top" className="no-print mx-auto max-w-3xl px-5 pb-20 sm:px-8">
         <Hero profile={profile} />
         <About profile={profile} />
-        <Experience experience={experience} />
         <Skills skills={skills} />
+        <Experience experience={experience} />
         <Projects projects={projects} />
         <Education education={education} />
 
