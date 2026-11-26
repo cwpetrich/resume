@@ -9,13 +9,18 @@ import Contact from "@/components/Contact";
 import InteractiveTerminal from "@/components/InteractiveTerminal";
 import PrintResume from "@/components/PrintResume";
 import { getResumeData } from "@/lib/resume";
+import { toPublicExperience } from "@/lib/data";
 
 // Render from the live database on each request so admin edits appear instantly.
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   const data = getResumeData();
-  const { profile, socials, experience, skills, projects, education } = data;
+  const { profile, socials, skills, projects, education } = data;
+  // Only highlights not explicitly opted out of the generic résumé — the
+  // full fact bank (every highlight) is reserved for the job-tailoring tool.
+  const experience = toPublicExperience(data.experience);
+  const publicData = { ...data, experience };
 
   return (
     <>
@@ -42,7 +47,7 @@ export default function Home() {
               every command is listed there. Built the same way the rest of this
               site was: React, hand-rolled.
             </p>
-            <InteractiveTerminal data={data} />
+            <InteractiveTerminal data={publicData} />
           </div>
         </section>
 
@@ -66,7 +71,7 @@ export default function Home() {
       </main>
 
       {/* Clean résumé that only appears when printing to PDF. */}
-      <PrintResume data={data} />
+      <PrintResume data={publicData} />
     </>
   );
 }

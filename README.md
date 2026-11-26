@@ -100,11 +100,17 @@ editor, instead of guessing what to write, use the quick-add prompt buttons
 ("+ Scope & scale", "+ Quantified impact", "+ Technical challenge", etc.) —
 each adds a blank highlight pre-tagged with that category and the underlying
 question as a placeholder, so you just fill in the answer. Add as many per
-category as you want per role; the public résumé still shows all of them, but
-the tailoring tool also sees each one's category and uses it to match what a
-job posting is actually asking for (e.g. surfacing "leadership" highlights for
-a posting that emphasizes mentorship). Highlights saved before this feature
-still work — they just come back uncategorized.
+category as you want per role — the tailoring tool sees all of them and uses
+each one's category to match what a job posting is actually asking for (e.g.
+surfacing "leadership" highlights for a posting that emphasizes mentorship).
+Highlights saved before this feature still work — they just come back
+uncategorized.
+
+Each highlight also has a "generic" checkbox (checked by default). Only
+checked highlights show on the public résumé and the default PDF — uncheck it
+to keep a fact in the bank for tailoring only, without cluttering the generic
+résumé with niche details. This lets you build a deep fact bank per role (lots
+of highlights across every category) while keeping the default résumé tight.
 
 ## Data & persistence
 

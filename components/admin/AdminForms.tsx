@@ -150,6 +150,7 @@ function HighlightsEditor({
       <div className="space-y-2">
         {values.map((h, i) => {
           const promptFor = HIGHLIGHT_PROMPTS.find((p) => p.category === h.category);
+          const featured = h.featured !== false;
           return (
             <div key={i} className="flex gap-2">
               <select
@@ -176,6 +177,17 @@ function HighlightsEditor({
                 onChange={(e) => set(i, { text: e.target.value })}
                 className={inputCls + " resize-y"}
               />
+              <label
+                className="flex h-fit shrink-0 items-center gap-1.5 self-start rounded border border-term-border px-2 py-2 text-xs text-term-dim"
+                title="Shown on the generic résumé and default PDF. Uncheck to keep it in the fact bank for job-tailoring only."
+              >
+                <input
+                  type="checkbox"
+                  checked={featured}
+                  onChange={(e) => set(i, { featured: e.target.checked })}
+                />
+                generic
+              </label>
               <button
                 type="button"
                 onClick={() => remove(i)}
@@ -219,7 +231,7 @@ export function ExperienceForm({ initial }: { initial: Job[] }) {
     <SectionCard
       id="experience"
       title="Experience"
-      hint="Lead bullets with impact; quantify where you can. Use the prompt buttons to build up more detail per role — the job-tailoring tool draws from all of it."
+      hint="Lead bullets with impact; quantify where you can. Use the prompt buttons to build up more detail per role — the job-tailoring tool draws from all of it, but only highlights checked “generic” show on the public résumé/PDF."
       value={jobs}
       onSave={saveExperienceAction}
     >
