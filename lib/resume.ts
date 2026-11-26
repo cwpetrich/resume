@@ -6,6 +6,7 @@ import type {
   Profile,
   SocialLink,
   Job,
+  Highlight,
   SkillGroup,
   Project,
   SchoolEntry,
@@ -13,6 +14,18 @@ import type {
 } from "./data";
 
 const j = <T>(s: string): T => JSON.parse(s) as T;
+
+/**
+ * Highlights used to be stored as plain strings. Normalize on read so any
+ * highlight written before the Highlight{text,category} schema still loads
+ * correctly — no DB migration needed, old data just comes back uncategorized.
+ */
+function normalizeHighlights(raw: unknown): Highlight[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.map((h) =>
+    typeof h === "string" ? { text: h } : (h as Highlight),
+  );
+}
 
 /**
  * Read the full résumé from SQLite and assemble it into the shape the UI
@@ -65,7 +78,7 @@ export const getResumeData = cache((): ResumeData => {
     period: r.period,
     location: r.location,
     summary: r.summary,
-    highlights: j<string[]>(r.highlights),
+    highlights: normalizeHighlights(j<unknown[]>(r.highlights)),
     stack: j<string[]>(r.stack),
   }));
 
@@ -237,6 +250,10 @@ export function getTailoredResume(id: string): TailoredResumeRecord | null {
     | Record<string, string>
     | undefined;
   if (!r) return null;
+  const experience = j<Job[]>(r.experience).map((job) => ({
+    ...job,
+    highlights: normalizeHighlights(job.highlights),
+  }));
   return {
     id: r.id,
     createdAt: r.created_at,
@@ -244,7 +261,7 @@ export function getTailoredResume(id: string): TailoredResumeRecord | null {
     jobDescription: r.job_description,
     summary: r.summary,
     skills: j<SkillGroup[]>(r.skills),
-    experience: j<Job[]>(r.experience),
+    experience,
     model: r.model,
   };
 }

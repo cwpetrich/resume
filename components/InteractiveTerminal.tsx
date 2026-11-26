@@ -164,7 +164,7 @@ export default function InteractiveTerminal({ data }: { data: ResumeData }) {
         case "work":
           return experience.flatMap((j) => [
             `<span class="text-term-accent">${j.role}</span> @ ${j.company} <span class="text-term-dim">(${j.period})</span>`,
-            ...j.highlights.map((h) => `  ▸ ${h}`),
+            ...j.highlights.map((h) => `  ▸ ${h.text}`),
             "",
           ]);
         case "projects":

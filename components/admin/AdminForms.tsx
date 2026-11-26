@@ -5,10 +5,13 @@ import type {
   Profile,
   SocialLink,
   Job,
+  Highlight,
+  HighlightCategory,
   SkillGroup,
   Project,
   SchoolEntry,
 } from "@/lib/data";
+import { HIGHLIGHT_PROMPTS } from "@/lib/data";
 import {
   saveProfileAction,
   saveSocialsAction,
@@ -20,7 +23,7 @@ import {
   deleteTailoredResumeAction,
 } from "@/app/admin/actions";
 import type { TailoredResumeSummary } from "@/lib/resume";
-import { TextInput, TextArea, StringList, ListEditor, SectionCard } from "./ui";
+import { TextInput, TextArea, StringList, ListEditor, SectionCard, inputCls } from "./ui";
 
 /* ----------------------------- Profile & contact ----------------------------- */
 export function ProfileForm({ initial }: { initial: Profile }) {
@@ -125,6 +128,90 @@ export function SocialsForm({ initial }: { initial: SocialLink[] }) {
   );
 }
 
+/** Per-highlight editor: free-text + optional category, with quick-add
+ * buttons for the fixed guided prompts (see HIGHLIGHT_PROMPTS) so building up
+ * a richer fact bank per role doesn't require guessing what to write about. */
+function HighlightsEditor({
+  values,
+  onChange,
+}: {
+  values: Highlight[];
+  onChange: (v: Highlight[]) => void;
+}) {
+  const set = (i: number, patch: Partial<Highlight>) =>
+    onChange(values.map((h, j) => (j === i ? { ...h, ...patch } : h)));
+  const remove = (i: number) => onChange(values.filter((_, j) => j !== i));
+  const add = (category?: HighlightCategory) =>
+    onChange([...values, { text: "", category }]);
+
+  return (
+    <div>
+      <span className="mb-1 block text-xs text-term-dim">highlights</span>
+      <div className="space-y-2">
+        {values.map((h, i) => {
+          const promptFor = HIGHLIGHT_PROMPTS.find((p) => p.category === h.category);
+          return (
+            <div key={i} className="flex gap-2">
+              <select
+                value={h.category ?? ""}
+                onChange={(e) =>
+                  set(i, {
+                    category: (e.target.value || undefined) as HighlightCategory | undefined,
+                  })
+                }
+                className="h-fit shrink-0 rounded border border-term-border bg-black/30 px-2 py-2 text-xs text-term-dim outline-none focus:border-term-accent"
+                aria-label="category"
+              >
+                <option value="">— plain</option>
+                {HIGHLIGHT_PROMPTS.map((p) => (
+                  <option key={p.category} value={p.category}>
+                    {p.label}
+                  </option>
+                ))}
+              </select>
+              <textarea
+                value={h.text}
+                rows={2}
+                placeholder={promptFor?.prompt ?? "Did X resulting in Y…"}
+                onChange={(e) => set(i, { text: e.target.value })}
+                className={inputCls + " resize-y"}
+              />
+              <button
+                type="button"
+                onClick={() => remove(i)}
+                className="shrink-0 self-start rounded border border-term-border px-2 py-1 text-xs text-term-dim hover:border-red-400 hover:text-red-400"
+                aria-label="remove"
+              >
+                ✕
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {HIGHLIGHT_PROMPTS.map((p) => (
+          <button
+            key={p.category}
+            type="button"
+            title={p.prompt}
+            onClick={() => add(p.category)}
+            className="rounded border border-dashed border-term-border px-2 py-1 text-xs text-term-accent hover:border-term-accent"
+          >
+            + {p.label}
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={() => add()}
+          className="rounded border border-dashed border-term-border px-2 py-1 text-xs text-term-dim hover:border-term-accent"
+        >
+          + plain highlight
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* --------------------------------- Experience -------------------------------- */
 export function ExperienceForm({ initial }: { initial: Job[] }) {
   const [jobs, setJobs] = useState<Job[]>(initial);
@@ -132,7 +219,7 @@ export function ExperienceForm({ initial }: { initial: Job[] }) {
     <SectionCard
       id="experience"
       title="Experience"
-      hint="Lead bullets with impact; quantify where you can."
+      hint="Lead bullets with impact; quantify where you can. Use the prompt buttons to build up more detail per role — the job-tailoring tool draws from all of it."
       value={jobs}
       onSave={saveExperienceAction}
     >
@@ -164,12 +251,9 @@ export function ExperienceForm({ initial }: { initial: Job[] }) {
               onChange={(v) => update({ summary: v })}
               rows={2}
             />
-            <StringList
-              label="highlights"
+            <HighlightsEditor
               values={jb.highlights}
               onChange={(highlights) => update({ highlights })}
-              placeholder="Did X resulting in Y…"
-              multiline
             />
             <StringList
               label="stack"

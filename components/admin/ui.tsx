@@ -4,7 +4,7 @@ import { ReactNode, useState, useTransition } from "react";
 import type { SaveResult } from "@/app/admin/actions";
 
 /* Shared input styling. */
-const inputCls =
+export const inputCls =
   "w-full rounded border border-term-border bg-black/30 px-3 py-2 text-sm text-term-fg outline-none focus:border-term-accent";
 
 export function TextInput({

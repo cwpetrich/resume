@@ -99,7 +99,7 @@ export default function ResumeDocument({
             </p>
             <ul className="ml-4 list-disc">
               {j.highlights.map((h, i) => (
-                <li key={i}>{h}</li>
+                <li key={i}>{h.text}</li>
               ))}
             </ul>
           </div>

@@ -92,6 +92,20 @@ reuses the same print pipeline as the main résumé. Saved versions can be
 deleted from the admin panel. This tool and its output are admin-only — there
 is no public job-tailoring page.
 
+### Building up richer experience data for tailoring
+
+Each experience highlight can carry an optional category: scope, achievement,
+metric, challenge, leadership, or collaboration. In the admin **Experience**
+editor, instead of guessing what to write, use the quick-add prompt buttons
+("+ Scope & scale", "+ Quantified impact", "+ Technical challenge", etc.) —
+each adds a blank highlight pre-tagged with that category and the underlying
+question as a placeholder, so you just fill in the answer. Add as many per
+category as you want per role; the public résumé still shows all of them, but
+the tailoring tool also sees each one's category and uses it to match what a
+job posting is actually asking for (e.g. surfacing "leadership" highlights for
+a posting that emphasizes mentorship). Highlights saved before this feature
+still work — they just come back uncategorized.
+
 ## Data & persistence
 
 Content lives in a SQLite database at `DATABASE_PATH` (default `./data/resume.db`).

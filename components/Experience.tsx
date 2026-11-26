@@ -27,7 +27,7 @@ export default function Experience({ experience }: { experience: Job[] }) {
               {job.highlights.map((h, i) => (
                 <li key={i} className="flex gap-2">
                   <span className="select-none text-term-accent">▸</span>
-                  <span>{h}</span>
+                  <span>{h.text}</span>
                 </li>
               ))}
             </ul>

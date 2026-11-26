@@ -42,9 +42,76 @@ export interface Job {
   period: string;
   location: string;
   summary: string;
-  highlights: string[];
+  highlights: Highlight[];
   stack: string[];
 }
+
+/**
+ * A single granular fact about a role, tagged with what kind of fact it is.
+ * The category is purely metadata for the job-tailoring tool (lib/tailorPlan.ts)
+ * to match against what a job posting is asking for — it's never shown
+ * differently in the public résumé, and the LLM only ever selects/reorders
+ * existing highlights, never writes new ones.
+ */
+export interface Highlight {
+  text: string;
+  category?: HighlightCategory;
+}
+
+export type HighlightCategory =
+  | "scope"
+  | "achievement"
+  | "metric"
+  | "challenge"
+  | "leadership"
+  | "collaboration";
+
+/**
+ * Fixed, deterministic prompts shown in the admin "Experience" editor as
+ * quick-add buttons — clicking one adds a blank highlight pre-tagged with
+ * that category, with the question as its placeholder. This is how you build
+ * up a richer bank of real facts per role for the job-tailoring tool to draw
+ * from, without needing an LLM (or any cost) just to fill out your own résumé.
+ */
+export const HIGHLIGHT_PROMPTS: {
+  category: HighlightCategory;
+  label: string;
+  prompt: string;
+}[] = [
+  {
+    category: "scope",
+    label: "Scope & scale",
+    prompt:
+      "What was the scope of this role? (team size, systems owned, users/customers served, budget)",
+  },
+  {
+    category: "achievement",
+    label: "Key achievement",
+    prompt: "What's a specific thing you built or shipped that you're proud of?",
+  },
+  {
+    category: "metric",
+    label: "Quantified impact",
+    prompt:
+      "What measurable outcome resulted from your work? (performance, cost, reliability, revenue, time saved)",
+  },
+  {
+    category: "challenge",
+    label: "Technical challenge",
+    prompt: "What was the hardest technical problem you solved here, and how?",
+  },
+  {
+    category: "leadership",
+    label: "Leadership & ownership",
+    prompt:
+      "Did you lead, mentor, architect, or make key decisions? Describe your level of ownership.",
+  },
+  {
+    category: "collaboration",
+    label: "Cross-team collaboration",
+    prompt: "Did you work directly with other teams, stakeholders, or clients? How?",
+  },
+];
 
 export interface SkillGroup {
   label: string;
@@ -148,11 +215,24 @@ export const defaultResumeData: ResumeData = {
       location: "Hybrid",
       summary: "Application development and architecture consulting.",
       highlights: [
-        "Designed, built, and maintained applications in .NET, AngularJS, and Next.js.",
-        "Consulted on application architecture and data integration across Redis, " +
-          "SQL, and MongoDB.",
-        "Deployed applications with Docker and Kubernetes.",
-        "Maintained legacy applications and systems alongside new development.",
+        {
+          text: "Designed, built, and maintained applications in .NET, AngularJS, and Next.js.",
+          category: "achievement",
+        },
+        {
+          text:
+            "Consulted on application architecture and data integration across Redis, " +
+            "SQL, and MongoDB.",
+          category: "scope",
+        },
+        {
+          text: "Deployed applications with Docker and Kubernetes.",
+          category: "achievement",
+        },
+        {
+          text: "Maintained legacy applications and systems alongside new development.",
+          category: "scope",
+        },
       ],
       stack: [
         ".NET",
@@ -174,9 +254,18 @@ export const defaultResumeData: ResumeData = {
       location: "Remote",
       summary: "Event-driven microservices for income verification.",
       highlights: [
-        "Built income verification features for non-traditional workers.",
-        "Engineered C# / .NET microservices that communicate over AWS SNS and SQS.",
-        "Managed SQL and MongoDB data stores covering a wide range of income types.",
+        {
+          text: "Built income verification features for non-traditional workers.",
+          category: "achievement",
+        },
+        {
+          text: "Engineered C# / .NET microservices that communicate over AWS SNS and SQS.",
+          category: "achievement",
+        },
+        {
+          text: "Managed SQL and MongoDB data stores covering a wide range of income types.",
+          category: "scope",
+        },
       ],
       stack: ["C#", ".NET", "AWS", "SNS", "SQS", "MongoDB", "MySQL", "Docker", "Datadog", "Jenkins"],
     },
@@ -187,10 +276,20 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Microservice platform development.",
       highlights: [
-        "Architected, built, and maintained C# / .NET microservices, delivered as " +
-          "versioned Docker images.",
-        "Connected services through AWS SNS and SQS messaging.",
-        "Built CI/CD pipelines with ArgoCD, Helm, and Kubernetes.",
+        {
+          text:
+            "Architected, built, and maintained C# / .NET microservices, delivered as " +
+            "versioned Docker images.",
+          category: "achievement",
+        },
+        {
+          text: "Connected services through AWS SNS and SQS messaging.",
+          category: "achievement",
+        },
+        {
+          text: "Built CI/CD pipelines with ArgoCD, Helm, and Kubernetes.",
+          category: "achievement",
+        },
       ],
       stack: [
         ".NET",
@@ -215,9 +314,18 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Logistics and partner integrations.",
       highlights: [
-        "Integrated third-party logistics APIs with Purple's systems on AWS.",
-        "Built and maintained Node.js services supporting nationwide sales operations.",
-        "Worked directly with partner companies to scope and deliver custom integrations.",
+        {
+          text: "Integrated third-party logistics APIs with Purple's systems on AWS.",
+          category: "achievement",
+        },
+        {
+          text: "Built and maintained Node.js services supporting nationwide sales operations.",
+          category: "scope",
+        },
+        {
+          text: "Worked directly with partner companies to scope and deliver custom integrations.",
+          category: "collaboration",
+        },
       ],
       stack: ["JavaScript", "Node.js", "AWS", "SQL"],
     },
@@ -228,10 +336,20 @@ export const defaultResumeData: ResumeData = {
       location: "Lehi, UT",
       summary: "Full-stack security tooling.",
       highlights: [
-        "Built and maintained .NET and React projects used by security analysts.",
-        "Developed a shared client and consultant portal for generating " +
-          "cybersecurity reports and sharing them securely.",
-        "Created attack-simulation modules that let clients test their network defenses.",
+        {
+          text: "Built and maintained .NET and React projects used by security analysts.",
+          category: "achievement",
+        },
+        {
+          text:
+            "Developed a shared client and consultant portal for generating " +
+            "cybersecurity reports and sharing them securely.",
+          category: "achievement",
+        },
+        {
+          text: "Created attack-simulation modules that let clients test their network defenses.",
+          category: "achievement",
+        },
       ],
       stack: [".NET", "C#", "React", "TypeScript", "Azure"],
     },
@@ -242,10 +360,22 @@ export const defaultResumeData: ResumeData = {
       location: "Provo, UT",
       summary: "Large-scale web applications.",
       highlights: [
-        "Integrated legacy ColdFusion servers with Canvas's Ruby on Rails API.",
-        "Championed the move to CFScript, making the ColdFusion codebase more efficient.",
-        "Ran training sessions on efficient DOM and vanilla JavaScript practices.",
-        "Integrated libraries that improved developer experience and UI quality.",
+        {
+          text: "Integrated legacy ColdFusion servers with Canvas's Ruby on Rails API.",
+          category: "achievement",
+        },
+        {
+          text: "Championed the move to CFScript, making the ColdFusion codebase more efficient.",
+          category: "leadership",
+        },
+        {
+          text: "Ran training sessions on efficient DOM and vanilla JavaScript practices.",
+          category: "leadership",
+        },
+        {
+          text: "Integrated libraries that improved developer experience and UI quality.",
+          category: "achievement",
+        },
       ],
       stack: ["ColdFusion", "JavaScript", "Ruby", "Ruby on Rails", "SQL"],
     },
@@ -256,11 +386,25 @@ export const defaultResumeData: ResumeData = {
       location: "St. George, UT",
       summary: "Real-time tooling and payroll systems.",
       highlights: [
-        "Designed and built an internal payroll system for time tracking and check printing.",
-        "Ported legacy escrow-management software from a DOS terminal app to an " +
-          "Angular web app.",
-        "Rewrote an outdated Visual Basic application in Ruby on Rails with MySQL.",
-        "Built custom workflows to streamline agent coordination.",
+        {
+          text:
+            "Designed and built an internal payroll system for time tracking and check printing.",
+          category: "achievement",
+        },
+        {
+          text:
+            "Ported legacy escrow-management software from a DOS terminal app to an " +
+            "Angular web app.",
+          category: "achievement",
+        },
+        {
+          text: "Rewrote an outdated Visual Basic application in Ruby on Rails with MySQL.",
+          category: "achievement",
+        },
+        {
+          text: "Built custom workflows to streamline agent coordination.",
+          category: "collaboration",
+        },
       ],
       stack: ["Ruby on Rails", "Ruby", "AngularJS", "JavaScript", "CoffeeScript", "MySQL"],
     },

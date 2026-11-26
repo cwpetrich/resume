@@ -32,7 +32,9 @@ export function buildPrompt(data: ResumeData, jobDescription: string): string {
       location: j.location,
       summary: j.summary,
       stack: j.stack,
-      highlights: j.highlights.map((h, hi) => `[${hi}] ${h}`),
+      highlights: j.highlights.map(
+        (h, hi) => `[${hi}]${h.category ? ` (${h.category})` : ""} ${h.text}`,
+      ),
     })),
   };
 
@@ -59,7 +61,7 @@ Rules:
 - "summary": 3-5 sentences highlighting the candidate's most relevant recent (last few years first) experience for THIS posting, built only from facts above.
 - "skills_order": the skill-group "label" values above, reordered most-relevant-to-this-posting first. Only use labels that appear above.
 - "roles": include every experience entry above exactly once, reordered most-relevant-first. "company" and "role" must exactly match a pair from the fact sheet.
-- "highlight_order": the bracketed indices for that job's highlights, reordered/selected to foreground what matters for this posting. You may drop irrelevant indices, but every number must be one that was shown for that job — do not invent new ones or renumber.`;
+- "highlight_order": the bracketed indices for that job's highlights, reordered/selected to foreground what matters for this posting. You may drop irrelevant indices, but every number must be one that was shown for that job — do not invent new ones or renumber. Each highlight is optionally tagged with a category in parentheses (scope, achievement, metric, challenge, leadership, collaboration) — use that to match what the posting is actually asking for (e.g. favor "leadership" highlights for a posting emphasizing mentorship, "metric" highlights for one emphasizing impact).`;
 }
 
 export function parsePlan(raw: string): LlmPlan {

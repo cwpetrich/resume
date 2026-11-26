@@ -24,7 +24,11 @@ function makeData(): ResumeData {
         period: "2022 — Present",
         location: "Remote",
         summary: "Built things.",
-        highlights: ["Did A", "Did B", "Did C"],
+        highlights: [
+          { text: "Did A", category: "achievement" },
+          { text: "Did B", category: "metric" },
+          { text: "Did C" },
+        ],
         stack: ["TypeScript"],
       },
       {
@@ -33,7 +37,7 @@ function makeData(): ResumeData {
         period: "2019 — 2022",
         location: "Remote",
         summary: "Built other things.",
-        highlights: ["Did D", "Did E"],
+        highlights: [{ text: "Did D" }, { text: "Did E", category: "leadership" }],
         stack: ["C#"],
       },
     ],
@@ -45,6 +49,8 @@ function makeData(): ResumeData {
     education: [],
   };
 }
+
+const texts = (hs: { text: string }[]) => hs.map((h) => h.text);
 
 test("parsePlan parses clean JSON", () => {
   const plan = parsePlan('{"summary":"s","skills_order":["Languages"],"roles":[]}');
@@ -92,7 +98,7 @@ test("applyPlan never drops a real job the model omitted from its plan", () => {
   assert.equal(result.experience[0].company, "Acme");
   assert.equal(result.experience[1].company, "Globex");
   // Globex wasn't mentioned, so it keeps all its original highlights verbatim.
-  assert.deepEqual(result.experience[1].highlights, ["Did D", "Did E"]);
+  assert.deepEqual(texts(result.experience[1].highlights), ["Did D", "Did E"]);
 });
 
 test("applyPlan selects/reorders only real highlight text by index", () => {
@@ -104,7 +110,7 @@ test("applyPlan selects/reorders only real highlight text by index", () => {
   };
   const result = applyPlan(data, plan);
   const acme = result.experience.find((j) => j.company === "Acme")!;
-  assert.deepEqual(acme.highlights, ["Did C", "Did A"]);
+  assert.deepEqual(texts(acme.highlights), ["Did C", "Did A"]);
 });
 
 test("applyPlan ignores out-of-range or invented highlight indices", () => {
@@ -117,7 +123,22 @@ test("applyPlan ignores out-of-range or invented highlight indices", () => {
   const result = applyPlan(data, plan);
   const acme = result.experience.find((j) => j.company === "Acme")!;
   // No valid indices survived, so it falls back to the full original list.
-  assert.deepEqual(acme.highlights, ["Did A", "Did B", "Did C"]);
+  assert.deepEqual(texts(acme.highlights), ["Did A", "Did B", "Did C"]);
+});
+
+test("applyPlan preserves each highlight's category alongside its text", () => {
+  const data = makeData();
+  const plan: LlmPlan = {
+    summary: "s",
+    skills_order: [],
+    roles: [{ company: "Acme", role: "Senior Engineer", highlight_order: [1, 0] }],
+  };
+  const result = applyPlan(data, plan);
+  const acme = result.experience.find((j) => j.company === "Acme")!;
+  assert.deepEqual(acme.highlights, [
+    { text: "Did B", category: "metric" },
+    { text: "Did A", category: "achievement" },
+  ]);
 });
 
 test("applyPlan never touches company/role/period/location/stack", () => {
@@ -157,11 +178,14 @@ test("applyPlan falls back to the profile tagline when summary is blank", () => 
   assert.equal(result.summary, data.profile.tagline);
 });
 
-test("buildPrompt embeds the job description and every real highlight index", () => {
+test("buildPrompt embeds the job description, highlight text, and categories", () => {
   const data = makeData();
   const prompt = buildPrompt(data, "We need a TypeScript engineer.");
   assert.ok(prompt.includes("We need a TypeScript engineer."));
-  assert.ok(prompt.includes("[0] Did A"));
+  assert.ok(prompt.includes("[0] (achievement) Did A"));
+  assert.ok(prompt.includes("[1] (metric) Did B"));
+  assert.ok(prompt.includes("[2] Did C")); // uncategorized: no parenthetical
   assert.ok(prompt.includes("[0] Did D"));
+  assert.ok(prompt.includes("[1] (leadership) Did E"));
   assert.ok(prompt.includes("never invent"));
 });
