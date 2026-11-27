@@ -81,31 +81,6 @@ export default function ResumeDocument({
         </ul>
       </section>
 
-      {/* Experience */}
-      <section className="print-break mt-2">
-        <h2 className="border-b border-black/30 text-sm font-bold uppercase tracking-wide">
-          Experience
-        </h2>
-        {experience.map((j) => (
-          <div key={j.company + j.role} className="print-break mt-1.5 text-sm">
-            <div className="flex justify-between gap-4">
-              <span className="font-semibold">
-                {j.role} — {j.company}
-              </span>
-              <span className="whitespace-nowrap">{j.period}</span>
-            </div>
-            <p className="text-xs italic">
-              {j.location} · {j.summary}
-            </p>
-            <ul className="ml-4 list-disc">
-              {j.highlights.map((h, i) => (
-                <li key={i}>{h.text}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-
       {/* Education */}
       <section className="print-break mt-2">
         <h2 className="border-b border-black/30 text-sm font-bold uppercase tracking-wide">
@@ -120,6 +95,37 @@ export default function ResumeDocument({
           </div>
         ))}
       </section>
+
+      {/* Experience */}
+      <section className="mt-2">
+        <h2 className="print-keep-next border-b border-black/30 text-sm font-bold uppercase tracking-wide">
+          Experience
+        </h2>
+        {experience.map((j) => (
+          <div key={j.company + j.role} className="mt-1.5 text-sm">
+            {/* Role/company/period line stays glued to the first bullet, but a
+                long bullet list may flow across pages instead of the whole job
+                (or the whole section) jumping to the next page. */}
+            <div className="print-break print-keep-next">
+              <div className="flex justify-between gap-4">
+                <span className="font-semibold">
+                  {j.role} — {j.company}
+                </span>
+                <span className="whitespace-nowrap">{j.period}</span>
+              </div>
+              <p className="text-xs italic">
+                {j.location} · {j.summary}
+              </p>
+            </div>
+            <ul className="ml-4 list-disc">
+              {j.highlights.map((h, i) => (
+                <li key={i} className="print-break">{h.text}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
     </>
   );
 }

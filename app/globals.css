@@ -130,6 +130,11 @@ body {
   .print-break {
     break-inside: avoid;
   }
+
+  /* Keep headings / job title lines on the same page as what follows them. */
+  .print-keep-next {
+    break-after: avoid;
+  }
 }
 
 /* The clean print résumé is hidden on screen, shown only when printing. */

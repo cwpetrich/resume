@@ -2,8 +2,9 @@ import type { Profile } from "@/lib/data";
 
 const links = [
   { href: "#about", label: "about" },
-  { href: "#experience", label: "experience" },
   { href: "#skills", label: "skills" },
+  { href: "#education", label: "education" },
+  { href: "#experience", label: "experience" },
   { href: "#projects", label: "projects" },
   { href: "#contact", label: "contact" },
 ];

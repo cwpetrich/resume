@@ -30,9 +30,9 @@ export default function Home() {
         <Hero profile={profile} />
         <About profile={profile} />
         <Skills skills={skills} />
+        <Education education={education} />
         <Experience experience={experience} />
         <Projects projects={projects} />
-        <Education education={education} />
 
         {/* Interactive terminal — the centerpiece "play" section. */}
         <section id="terminal" className="no-print scroll-mt-24 py-10">
