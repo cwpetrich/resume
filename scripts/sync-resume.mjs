@@ -14,8 +14,6 @@
  * any edits made through /admin that aren't reflected in the seed will be lost.
  */
 import Database from "better-sqlite3";
-import { createRequire } from "node:module";
-import { register } from "node:module";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -26,15 +24,20 @@ const DB_PATH =
 // can load it directly through a TS loader. Fall back to a clear error if the
 // loader isn't available in this Node runtime.
 async function loadSeed() {
+  const seedPath = path.resolve("lib/data.ts");
+  let mod;
   try {
-    // Node >= 20.6 ships an experimental TS-stripping loader via tsx if present.
-    const require = createRequire(import.meta.url);
-    require.resolve("tsx");
-    register("tsx/esm", pathToFileURL("./"));
-  } catch {
-    // tsx not installed — that's fine if Node can strip types natively.
+    // Prefer tsx's scoped tsImport(): it compiles just this import graph.
+    // (Registering tsx/esm globally via module.register() makes tsx treat
+    // lib/data.ts as CommonJS — package.json has no "type": "module" — and
+    // newer Node then throws ERR_REQUIRE_CYCLE_MODULE when it hits `export`.)
+    const { tsImport } = await import("tsx/esm/api");
+    mod = await tsImport(pathToFileURL(seedPath).href, import.meta.url);
+  } catch (err) {
+    if (err?.code !== "ERR_MODULE_NOT_FOUND") throw err;
+    // tsx not installed — rely on Node's native type stripping.
+    mod = await import(pathToFileURL(seedPath).href);
   }
-  const mod = await import(pathToFileURL(path.resolve("lib/data.ts")).href);
   return mod.defaultResumeData;
 }
 
